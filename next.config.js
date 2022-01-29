@@ -1,0 +1,25 @@
+module.exports = {
+  images: {
+    domains: [
+      "www.repairwin.com",
+      "tailwindui.com",
+      "4.bp.blogspot.com",
+      "i.pinimg.com",
+      "wallpapermemory.com",
+      "wallpaperaccess.com",
+      "wolt-menu-images-cdn.wolt.com",
+      "cdn.wallpapersafari.com",
+      "www.messenger.com",
+      "scontent-mxp1-1.xx.fbcdn.net",
+      "images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com",
+      "imageproxy.wolt.com",
+      "www.wallpapers-full-hd.com",
+      "insanelygoodrecipes.com",
+      "media.istockphoto.com",
+      "image.shutterstock.com",
+      "srv4.imgonline.com.ua",
+      "prnt.sc",
+      "images.unsplash.com",
+    ],
+  },
+};
