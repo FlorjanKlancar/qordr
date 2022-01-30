@@ -1,4 +1,4 @@
-import MaterialTable from "material-table";
+/* import MaterialTable from "material-table";
 import React from "react";
 import Image from "next/image";
 import CheckIcon from "@material-ui/icons/Check";
@@ -92,7 +92,7 @@ export default function History(props) {
     const data = await response.json();
     console.log(data);
     /*if (data.success === "success") props.alertMessageSuccess();
-    else props.alertMessageFail();*/
+    else props.alertMessageFail();
     props.fetchNewData();
   }
 
@@ -110,7 +110,7 @@ export default function History(props) {
     const data = await response.json();
     console.log(data);
     /*if (data.success === "success") props.alertMessageSuccess();
-    else props.alertMessageFail();*/
+    else props.alertMessageFail();
     props.fetchNewData();
   }
 
@@ -210,3 +210,4 @@ export default function History(props) {
     />
   );
 }
+ */

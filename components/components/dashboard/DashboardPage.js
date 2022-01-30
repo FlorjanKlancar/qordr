@@ -144,7 +144,7 @@ function DashboardPage(props) {
         ))}
       </div>
       <div className="p-2 xl:p-0 flex flex-wrap xl:flex-nowrap xl:ml-3 mt-6 xl:space-x-6  xl:mr-4">
-        <DashboardGraph ordersGraph={props.ordersGraph} />
+        {/*<DashboardGraph ordersGraph={props.ordersGraph} />*/}
 
         <DashboardCardOrders orders={props.orders} />
       </div>

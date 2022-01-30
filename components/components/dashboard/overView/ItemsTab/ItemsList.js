@@ -1,4 +1,4 @@
-import MaterialTable from "material-table";
+/* import MaterialTable from "material-table";
 
 export default function ItemsList(props) {
   const array = [];
@@ -53,3 +53,4 @@ export default function ItemsList(props) {
     />
   );
 }
+ */

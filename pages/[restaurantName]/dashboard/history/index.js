@@ -1,4 +1,4 @@
-import {Fragment, useState, useEffect} from "react";
+/* import {Fragment, useState, useEffect} from "react";
 import Head from "next/head";
 import React from "react";
 import LayoutDashboard from "../../../../components/layout/LayoutDashboard";
@@ -95,4 +95,9 @@ export async function getStaticProps() {
     },
     revalidate: 1,
   };
+}
+ */
+
+export default function History() {
+  return <div>History</div>;
 }

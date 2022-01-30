@@ -53,7 +53,7 @@ export default function OrderTab(props) {
       <div className="w-full flex flex-wrap lg:flex-nowrap">
         <div className="w-full lg:w-9/12 bg-white shadow-sm border rounded-xl border-gray-100 p-4">
           <p className="font-semibold text-lg border-b-2 h-8">Orders graph</p>
-          <HorizontalBar data={props.orders.graph} />
+          {/*<HorizontalBar data={props.orders.graph} />*/}
         </div>
         <div className=" bg-white shadow-sm w-full lg:w-3/12 border rounded-xl border-gray-100 lg:ml-4 mt-4 lg:mt-0">
           <div className="border-b p-3 border-gray-100">
@@ -64,7 +64,7 @@ export default function OrderTab(props) {
               Total orders: {props.orders.ordersTotalNr[0].count}
             </p>
           </div>
-          <Doughnut data={chartdata} />
+          {/*<Doughnut data={chartdata} />*/}
         </div>
       </div>
 

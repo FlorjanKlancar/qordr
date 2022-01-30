@@ -10,7 +10,7 @@ function TableTab(props) {
           <p className="font-semibold text-lg border-b-2 h-8">
             Orders per table graph
           </p>
-          <HorizontalBar data={props.tables} />
+          {/*<HorizontalBar data={props.tables} />*/}
         </div>
         <div className=" bg-white shadow-sm w-full lg:w-3/12 border rounded-xl border-gray-100 mt-4 lg:ml-4 lg:mt-0">
           <div className="p-3">

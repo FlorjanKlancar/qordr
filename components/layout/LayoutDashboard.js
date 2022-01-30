@@ -1,4 +1,3 @@
-import {OmitProps} from "antd/lib/transfer/ListBody";
 import DashboardSidebar from "../components/dashboard/DashboardSidebar";
 import DashboardTopbar from "../components/dashboard/DashboardTopbar";
 
