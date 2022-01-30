@@ -22,15 +22,16 @@ const TopPicks = (props) => {
         Top picks
       </div>
       <div className="relative w-full flex gap-6 snap-x snap-mandatory overflow-x-auto p-4">
-        {props.favItems.map((item) => (
-          <TopPicksCard
-            pic={item.itemPicture}
-            price={item.itemPrice}
-            title={item.itemTitle}
-            desc={item.itemDescription}
-            key={item.idItem}
-          />
-        ))}
+        {props &&
+          props.favItems?.map((item) => (
+            <TopPicksCard
+              pic={item.itemPicture}
+              price={item.itemPrice}
+              title={item.itemTitle}
+              desc={item.itemDescription}
+              key={item.idItem}
+            />
+          ))}
       </div>
     </Fragment>
   );

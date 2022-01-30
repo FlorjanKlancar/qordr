@@ -10,7 +10,7 @@ import Bill from "../bill/Bill";
 import AlertPopUp from "./AlertPopUp";
 import {useRouter} from "next/router";
 import Link from "next/link";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import {ArrowLeftIcon} from "@heroicons/react/solid";
 import {useTranslation} from "react-i18next";
 
 function OrderPage(props) {
@@ -77,35 +77,28 @@ function OrderPage(props) {
       {showOrderPage ? (
         <Fragment>
           <RestaurantHeader restaurantInfo={props.restaurantInfo} />
-          <div className="lg:grid grid-flow-col grid-cols-3 pt-12">
-            <div>
+          <div className="flex flex-col xl:flex-row xl:space-x-16 mt-20 xl:mt-12">
+            <div className="hidden xl:block mt-4 w-1/3">
               <RestaurantSideInfo restaurantInfo={props.restaurantInfo} />
             </div>
 
-            <div className="pt-8 lg:pt-0">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-gray-600	pt-4 pl-4 mt-4">
+            <div className="">
+              <div className="flex justify-between mt-4 p-8">
+                <div className="text-gray-600	">
                   <Link
                     href={{
                       pathname: "/[restaurantName]/[tableNr]",
                       query: {restaurantName: restaurantName, tableNr: tableNr},
                     }}
                   >
-                    <button className="p-1 pt-2">
-                      <ArrowBackIcon />
-                      <span className="">{t("back_button")}</span>
+                    <button className="flex">
+                      <ArrowLeftIcon className="w-5 h-5" />
+                      <span className="ml-2">{t("back_button")}</span>
                     </button>
                   </Link>
                 </div>
 
-                <div className="pt-8 pr-2 pb-2 lg:text-xl text-base">
-                  {t("checkout_info")} {""}
-                  <span className="font-bold">Table-{tableNr}</span> at
-                  <div className="font-bold inline">
-                    {" "}
-                    {props.restaurantInfo[0].restaurantName}
-                  </div>
-                </div>
+                <div className="">{t("checkout_info")}</div>
               </div>
               {cartCtx.items.map((item) => (
                 <OrderItem
@@ -133,7 +126,7 @@ function OrderPage(props) {
                   </div>
                 </div>
               ) : (
-                <div className="p-4 m-4 ">
+                <div className="p-4 ">
                   <PaymentDetails
                     onAddTip={setTipHandler}
                     onSetPayment={setPaymentOptionHandler}
@@ -142,7 +135,7 @@ function OrderPage(props) {
               )}
             </div>
 
-            <div className="pt-8 lg:pt-0 lg:pl-48">
+            <div className="mt-4 xl:w-1/3">
               <OrderInTotal
                 tip={tip}
                 comment={comment}

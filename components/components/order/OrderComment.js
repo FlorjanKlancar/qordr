@@ -2,6 +2,8 @@ import {Fragment, useState} from "react";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {useTranslation} from "react-i18next";
+import {PlusIcon} from "@heroicons/react/solid";
+import {ChatAlt2Icon} from "@heroicons/react/solid";
 
 function OrderComment(props) {
   const {t} = useTranslation();
@@ -17,19 +19,19 @@ function OrderComment(props) {
 
   return (
     <Fragment>
-      <div className="p-8">
-        <i className="text-default fas fa-plus"></i>
+      <div className="m-8 flex">
+        <PlusIcon className="w-6 h-6 text-default" />
         <Link
           href={{
             pathname: "/[restaurantName]/[tableNr]",
             query: {restaurantName: restaurantName, tableNr: tableNr},
           }}
         >
-          <button className="pl-2">{t("add_more_button")}</button>
+          <button className="ml-2">{t("add_more_button")}</button>
         </Link>
       </div>
-      <div className="pl-8 pb-8">
-        <i className="text-default fas fa-comment"></i>
+      <div className="ml-8 mb-8 flex">
+        <ChatAlt2Icon className="w-6 h-6 text-default" />
         <button onClick={commentHandler} className="pl-2">
           {t("add_comment_button")}
         </button>

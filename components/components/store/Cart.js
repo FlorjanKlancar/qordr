@@ -1,6 +1,6 @@
-import React, { Fragment, useContext } from "react";
+import React, {Fragment, useContext} from "react";
 import CartContext from "./cart-context";
-//import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from "@mui/material/Badge";
 
 function Cart(props) {
@@ -19,7 +19,7 @@ function Cart(props) {
           id="cart"
         >
           <Badge badgeContent={numberOfCartItems} color="primary">
-            {/*<ShoppingCartIcon color="" className="text-white" />*/}
+            <ShoppingCartIcon color="" className="text-white" />
           </Badge>
         </div>
       )}

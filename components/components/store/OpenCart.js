@@ -4,6 +4,7 @@ import CartSingleItem from "./CartSingleItem";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {useTranslation} from "react-i18next";
+import {XIcon} from "@heroicons/react/solid";
 
 function OpenCart(props) {
   const {t} = useTranslation();
@@ -26,16 +27,14 @@ function OpenCart(props) {
   return (
     <Fragment>
       <div className="max-h-96	overflow-scroll">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="text-center m-auto font-bold text-2xl	">
-            {t("cart_header")}
-          </div>
+        <div className="flex justify-between">
+          <div className="font-bold text-2xl p-2">{t("cart_header")}</div>
           <div className="divide-y ">
             <button
-              className="float-right border-2 border-gray-500	 hover:bg-gray-300 text-gray-900 font-bold py-2 px-4 rounded-full"
+              className="border-2 border-gray-500	 hover:bg-gray-300 text-gray-900 font-bold rounded-full p-2"
               onClick={props.onClick}
             >
-              <i className="fas fa-times"></i>
+              <XIcon className="w-5 h-5" />
             </button>
           </div>
         </div>

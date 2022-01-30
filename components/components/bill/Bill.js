@@ -10,7 +10,7 @@ import Confetti from "react-confetti";
 function Bill(props) {
   const {t} = useTranslation();
   const router = useRouter();
-  const tableNr = router.query.tableNr;
+
   const cartCtx = useContext(CartContext);
   const comment = props.comment;
   const tip = props.tip * 1;
@@ -36,7 +36,7 @@ function Bill(props) {
           height: "100%",
         }}
       >
-        <Confetti recycle={true} />
+        <Confetti recycle={false} />
       </div>
 
       <div className="p-4 items-center text-center	 text-xl font-medium">

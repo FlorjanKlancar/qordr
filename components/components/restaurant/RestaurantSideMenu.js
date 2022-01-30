@@ -1,5 +1,5 @@
-import { Fragment, useState, useEffect } from "react";
-import { Link } from "react-scroll";
+import {Fragment, useState, useEffect} from "react";
+import {Link} from "react-scroll";
 
 function RestaurantSideMenu(props) {
   const [offset, setOffset] = useState(0);
@@ -24,7 +24,7 @@ function RestaurantSideMenu(props) {
                 to={item.Category}
                 spy={true}
                 smooth={true}
-                offset={-110}
+                offset={-120}
               >
                 {item.Category}
               </Link>

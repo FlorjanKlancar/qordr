@@ -1,5 +1,9 @@
 import React, {useState} from "react";
 import {useTranslation} from "react-i18next";
+import {CreditCardIcon} from "@heroicons/react/solid";
+import {CheckIcon} from "@heroicons/react/solid";
+import {CashIcon} from "@heroicons/react/solid";
+import {ThumbUpIcon} from "@heroicons/react/solid";
 
 function PaymentDetails(props) {
   const {t} = useTranslation();
@@ -19,54 +23,43 @@ function PaymentDetails(props) {
     props.onSetPayment("cash");
   }
 
+  const selectedPaymentStyle = "bg-green-100 border-green-500 text-green-500";
+  const notSelectedPaymentStyle = "border-gray-200 text-gray-500";
+
   //if (cardOption === false && cashOption === false) props.onSetPayment("");
 
   return (
-    <div className="grid grid-cols-2 gap-2 w-full">
-      <div className="col-span-2 font-bold text-xl">{t("payment_header")}</div>
-      {cardOption ? (
+    <div className="flex flex-col">
+      <div className="font-bold text-xl">{t("payment_header")}</div>
+
+      <div className="mt-4 space-y-2">
         <div
-          className="col-span-2 p-2 bg-gray-200 border-gray-400	border-2 rounded-lg m-auto w-full"
+          className={`flex justify-between border-2 rounded-lg p-3 ${
+            cardOption ? selectedPaymentStyle : notSelectedPaymentStyle
+          }`}
           onClick={cardOptionHandler}
         >
-          <i className="far fa-credit-card fa-2x"></i>
-          <div className="pl-2 inline-block text-sm">{t("payment_card")}</div>
+          <CreditCardIcon className="w-6 h-6 mr-2" />
+          {t("payment_card")}
+          {cardOption && <CheckIcon className="w-6 h-6 mr-2 " />}
         </div>
-      ) : (
         <div
-          className="col-span-2 p-2 border-gray-200	border-2 rounded-lg block m-auto w-full"
-          onClick={cardOptionHandler}
-        >
-          <i className="far fa-credit-card fa-2x"></i>
-          <div className="pl-2 inline-block text-sm">{t("payment_card")}</div>
-        </div>
-      )}
-
-      {cashOption ? (
-        <div
-          className="col-span-2 p-2 bg-gray-200 border-gray-400	border-2 rounded-lg m-auto w-full"
+          className={`flex justify-between border-2 rounded-lg p-3 ${
+            cashOption ? selectedPaymentStyle : notSelectedPaymentStyle
+          }`}
           onClick={cashOptionHandler}
         >
-          <i className="far fa-money-bill-alt fa-2x"></i>
-          <div className="pl-2 inline-block text-sm ">{t("payment_cash")}</div>
+          <CashIcon className="w-6 h-6 mr-2" />
+          {t("payment_cash")}
+          {cashOption && <CheckIcon className="w-6 h-6 mr-2 " />}
         </div>
-      ) : (
-        <div
-          className="col-span-2 p-2 border-gray-200	border-2 rounded-lg m-auto w-full"
-          onClick={cashOptionHandler}
-        >
-          <i className="far fa-money-bill-alt fa-2x"></i>
-          <div className="pl-2 inline-block text-sm">{t("payment_cash")}</div>
-        </div>
-      )}
-
-      <div className="pt-6  ">
-        <i className="fas fa-hands fa-2x"></i>
-        <div className="pl-2 inline-block text-sm">{t("payment_tip")}</div>
       </div>
 
-      <div className="pt-8 ">
-        <div className="mt-1 relative rounded-md shadow-sm">
+      <div className="pt-6 flex justify-between text-gray-500">
+        <ThumbUpIcon className="w-6 h-6 mr-2" />
+        <div className="inline-block text-sm">{t("payment_tip")}</div>
+
+        <div className="relative rounded-md shadow-sm">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <span className="text-gray-500 sm:text-sm">€</span>
           </div>
@@ -81,6 +74,7 @@ function PaymentDetails(props) {
           />
         </div>
       </div>
+
       <div></div>
     </div>
   );
