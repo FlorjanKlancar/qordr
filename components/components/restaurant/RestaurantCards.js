@@ -1,14 +1,13 @@
 import SingleCard from "./SingleCard";
 import RestaurantSideInfo from "./RestaurantSideInfo";
 import RestaurantSideMenu from "./RestaurantSideMenu";
-import React, { useState, Fragment, useContext } from "react";
+import React, {useState, Fragment, useContext} from "react";
 import CartContext from "../store/cart-context";
 import SearchField from "./SearchField";
 import RestaurantSideMenuPC from "./RestaurantSideMenuPC";
 import TopPicks from "./TopPicks";
 
-function RestaurantCards(props) {
-  console.log("RESTCARDS", props);
+function RestaurantCards({sideMenu, restaurantInfo, favItems}) {
   const cartCtx = useContext(CartContext);
 
   const cartItemRemoveHandler = (id) => {
@@ -16,25 +15,96 @@ function RestaurantCards(props) {
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({ ...item, amount: 1 });
+    cartCtx.addItem({...item, amount: 1});
   };
 
   const [search, setSearch] = useState("");
-
   return (
     <div className="flex flex-row xl:space-x-16">
-      <div className="hidden xl:block mt-12 w-1/3">
-        <RestaurantSideInfo restaurantInfo={props.restaurantInfo} />
-      </div>
-      <div className="hidden xl:block order-2 mt-12 w-1/3">
-        <RestaurantSideMenuPC sideMenu={props.sideMenu} />
-      </div>
+      {/*  <div className="hidden xl:block mt-12 w-1/3">
+        <RestaurantSideInfo restaurantInfo={restaurantInfo} />
+      </div> */}
+      {/* <div className="hidden xl:block order-2 mt-12 w-1/3">
+        <RestaurantSideMenuPC sideMenu={sideMenu} />
+      </div> */}
       <div className="mt-32 xl:mt-12 w-full md:w-2/3 xl:w-1/3  m-auto">
         <div className="space-y-4">
           <SearchField setSearch={setSearch} />
-          <TopPicks favItems={props.favItems} />
-          <RestaurantSideMenu sideMenu={props.sideMenu} />
-          {props.sideMenu.item.map((item) => (
+          {/* <TopPicks favItems={props.favItems} />
+          <RestaurantSideMenu sideMenu={props.sideMenu} /> */}
+
+          {Object.keys(sideMenu).map(function (key, index) {
+            return (
+              <div key={index}>
+                {sideMenu[key].filter((val) => {
+                  if (search === "") return val;
+                  else if (
+                    val.title.toLowerCase().includes(search.toLowerCase()) ||
+                    (val.description &&
+                      val.description
+                        .toLowerCase()
+                        .includes(search.toLowerCase()))
+                  )
+                    return val;
+                }).length > 0 && (
+                  <>
+                    <div className="text-2xl font-medium text-gray-900 p-2">
+                      {sideMenu[key].length && (
+                        <div
+                          className="border-b-2 border-gray-400 text-center "
+                          id={key + "_header"}
+                        >
+                          {key}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <Fragment>
+                        <div id={key} className="items_list">
+                          {sideMenu[key]
+                            .filter((val) => {
+                              {
+                                if (search === "") return val;
+                                else if (
+                                  val.title
+                                    .toLowerCase()
+                                    .includes(search.toLowerCase()) ||
+                                  (val.description &&
+                                    val.description
+                                      .toLowerCase()
+                                      .includes(search.toLowerCase()))
+                                )
+                                  return val;
+                              }
+                            })
+                            .map((item) => (
+                              <SingleCard
+                                key={item.id}
+                                id={item.id}
+                                img={item.picture}
+                                description={item.description}
+                                title={item.title}
+                                price={item.price}
+                                type={item.type}
+                                restaurantRecommends={item.recommendation}
+                                onRemove={cartItemRemoveHandler.bind(
+                                  null,
+                                  item.id
+                                )}
+                                onAdd={cartItemAddHandler.bind(null, item)}
+                                cartCtx={cartCtx}
+                              />
+                            ))}
+                        </div>
+                      </Fragment>
+                    </div>
+                  </>
+                )}
+              </div>
+            );
+          })}
+
+          {/*   {props.sideMenu.item.map((item) => (
             <div key={index}>
               {item.Items.filter((val) => {
                 if (search === "") return val;
@@ -89,7 +159,7 @@ function RestaurantCards(props) {
                 </Fragment>
               )}
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>

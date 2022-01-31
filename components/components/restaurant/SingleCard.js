@@ -69,9 +69,11 @@ function SingleCard(props) {
             <div className="text-xl font-medium ">{props.title}</div>
 
             <p className="text-sm text-gray-500">
-              {props.description.length < 100
-                ? props.description
-                : props.description.substring(0, 97) + "..."}
+              {props.description
+                ? props.description.length < 100
+                  ? props.description
+                  : props.description.substring(0, 97) + "..."
+                : ""}
             </p>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import {Fragment} from "react";
 import RestaurantHeader from "./RestaurantHeader";
 import RestaurantCards from "./RestaurantCards";
 import React from "react";
