@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import {IdentificationIcon} from "@heroicons/react/outline";
-import {ClockIcon} from "@heroicons/react/outline";
+import { IdentificationIcon } from "@heroicons/react/outline";
+import { ClockIcon } from "@heroicons/react/outline";
 
-function RestaurantHeader({restaurantInfo}) {
+function RestaurantHeader({ restaurantInfo }) {
   return (
     <header className="relative flex justify-center	">
       <div className="h-56">
@@ -14,7 +14,7 @@ function RestaurantHeader({restaurantInfo}) {
           className="brightness-50"
         />
       </div>
-      <div className="absolute inset-y-32 bg-white w-5/6 sm:w-4/6 md:w-2/3 z-50 h-48  rounded-lg shadow-2xl p-4 border-2 border-gray-200 xl:hidden">
+      <div className="absolute inset-y-32 bg-white w-5/6 sm:w-4/6 md:w-2/3 z-10 h-48  rounded-lg shadow-2xl p-4 border-2 border-gray-200 xl:hidden">
         <div>
           <h1 className="text-center text-2xl semi-bold">
             {restaurantInfo[0].restaurantName}
@@ -34,7 +34,7 @@ function RestaurantHeader({restaurantInfo}) {
           </p>
         </div>
       </div>
-      <div className="hidden xl:block z-50 absolute bottom-8 left-52 text-6xl text-white">
+      <div className="hidden xl:block z-10 absolute bottom-8 left-52 text-6xl text-white">
         {restaurantInfo[0].restaurantName}
       </div>
     </header>

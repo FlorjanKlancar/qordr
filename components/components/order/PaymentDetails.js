@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import {useTranslation} from "react-i18next";
-import {CreditCardIcon} from "@heroicons/react/solid";
-import {CheckIcon} from "@heroicons/react/solid";
-import {CashIcon} from "@heroicons/react/solid";
-import {ThumbUpIcon} from "@heroicons/react/solid";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { CreditCardIcon } from "@heroicons/react/solid";
+import { CheckIcon } from "@heroicons/react/solid";
+import { CashIcon } from "@heroicons/react/solid";
+import { ThumbUpIcon } from "@heroicons/react/solid";
 
 function PaymentDetails(props) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [cardOption, setCardOption] = useState(false);
   const [cashOption, setCashOption] = useState(false);
@@ -55,22 +55,18 @@ function PaymentDetails(props) {
         </div>
       </div>
 
-      <div className="pt-6 flex justify-between text-gray-500">
+      <div className="pt-6 px-4 flex justify-between text-gray-500 ">
         <ThumbUpIcon className="w-6 h-6 mr-2" />
-        <div className="inline-block text-sm">{t("payment_tip")}</div>
+        <div className="text-sm mt-1">{t("payment_tip")}</div>
 
-        <div className="relative rounded-md shadow-sm">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span className="text-gray-500 sm:text-sm">€</span>
-          </div>
+        <div class="flex w-1/3 border-2 border-gray-300 rounded-lg">
+          <span class="inline-flex items-center px-3 text-sm text-gray-500">
+            €
+          </span>
           <input
             type="number"
-            name="price"
-            id="price"
-            className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
-            placeholder="0.00"
-            autoComplete="off"
-            onChange={(e) => props.onAddTip(e.target.value)}
+            class="w-full rounded-lg outline-none pl-2"
+            placeholder="Tip"
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
-import {Fragment, useState} from "react";
-import {Dialog, Transition} from "@headlessui/react";
+import { Fragment, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 
 export default function TopPicksOpenCard(props) {
@@ -8,7 +8,7 @@ export default function TopPicksOpenCard(props) {
       <Transition.Root show={props.open} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed z-10 inset-0 overflow-y-auto "
+          className="fixed z-50 inset-0 overflow-y-auto "
           onClose={props.setOpen}
         >
           <div className="flex items-end justify-center min-h-screen  pb-56 text-center  min-w-screen">
