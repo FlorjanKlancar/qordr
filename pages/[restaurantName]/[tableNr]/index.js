@@ -1,7 +1,7 @@
-import React, {Suspense} from "react";
+import React, { Suspense } from "react";
 import Head from "next/head";
 import Restaurant from "../../../components/components/restaurant/Restaurant";
-import {Fragment, useState, useEffect} from "react";
+import { Fragment, useState, useEffect } from "react";
 import Tooltip from "../../../components/layout/ToolTip";
 import Modal from "../../../components/layout/Modal";
 import OpenCart from "../../../components/components/store/OpenCart";
@@ -9,7 +9,7 @@ import Cart from "../../../components/components/store/Cart";
 import RestaurantPickLanguage from "../../../components/components/restaurant/RestaurantPickLanguage";
 import HttpApi from "i18next-http-backend";
 import i18n from "i18next";
-import {initReactI18next} from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import Spinner from "../../../components/components/spinner/index";
 import axios from "axios";
 
@@ -17,12 +17,10 @@ i18n
   .use(initReactI18next)
   .use(HttpApi)
   .init({
-    lng: "GB",
     fallbackLng: "GB",
     backend: {
       loadPath: "/assets/locales/{{lng}}/translations.json",
     },
-    react: {useSuspense: false},
   });
 
 export default function Home(props) {
@@ -62,12 +60,6 @@ export default function Home(props) {
         <title>{restaurantName}</title>
 
         <link
-          rel="stylesheet"
-          href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-          crossOrigin="anonymous"
-        />
-        <link
           href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap"
           rel="stylesheet"
         />
@@ -82,9 +74,7 @@ export default function Home(props) {
         />
       </Head>
 
-      {!i18n.isInitialized ? (
-        <Spinner />
-      ) : language ? (
+      {language ? (
         <Fragment>
           <Tooltip selector="#tooltip">
             {openCart && (
@@ -143,6 +133,6 @@ export async function getStaticProps() {
   const sideMenu = await response2.json();
 
   return {
-    props: {restaurantData: data, sideMenu: sideMenu},
+    props: { restaurantData: data, sideMenu: sideMenu },
   };
 }

@@ -73,7 +73,7 @@ function OrderPage(props) {
       {showOrderPage ? (
         <Fragment>
           <RestaurantHeader restaurantInfo={props.restaurantInfo} />
-          <div className="flex flex-col xl:flex-row xl:space-x-16 mt-20 xl:mt-12">
+          <div className="flex flex-col xl:flex-row xl:space-x-16 mt-20 xl:mt-12 ">
             <div className="hidden xl:block mt-4 w-1/3">
               <RestaurantSideInfo restaurantInfo={props.restaurantInfo} />
             </div>
