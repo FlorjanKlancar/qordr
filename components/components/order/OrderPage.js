@@ -1,4 +1,4 @@
-import React, {Fragment, useContext, useState} from "react";
+import React, { Fragment, useContext, useState } from "react";
 import RestaurantSideInfo from "../restaurant/RestaurantSideInfo";
 import OrderItem from "./OrderItem";
 import OrderComment from "./OrderComment";
@@ -8,13 +8,13 @@ import CartContext from "../store/cart-context";
 import RestaurantHeader from "../restaurant/RestaurantHeader";
 import Bill from "../bill/Bill";
 import AlertPopUp from "./AlertPopUp";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
-import {ArrowLeftIcon} from "@heroicons/react/solid";
-import {useTranslation} from "react-i18next";
+import { ArrowLeftIcon } from "@heroicons/react/solid";
+import { useTranslation } from "react-i18next";
 
 function OrderPage(props) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
@@ -29,10 +29,6 @@ function OrderPage(props) {
 
   function setTipHandler(value) {
     setTip(value);
-  }
-
-  function setPaymentOptionHandler(value) {
-    setPaymentOption(value);
   }
 
   function setCommentHandler(value) {
@@ -66,8 +62,8 @@ function OrderPage(props) {
       }).then((res) => {
         if (res.status === 200) setShowOrderPage(false);
       });
-    } else if (paymentOption === "" || cartCtx.items.length === 0) {
-      if (paymentOption === "") setAlertForPayment(true);
+    } else if (!paymentOption || cartCtx.items.length === 0) {
+      if (!paymentOption) setAlertForPayment(true);
       if (cartCtx.items.length === 0) setAlertForItems(true);
     }
   }
@@ -88,7 +84,10 @@ function OrderPage(props) {
                   <Link
                     href={{
                       pathname: "/[restaurantName]/[tableNr]",
-                      query: {restaurantName: restaurantName, tableNr: tableNr},
+                      query: {
+                        restaurantName: restaurantName,
+                        tableNr: tableNr,
+                      },
                     }}
                   >
                     <button className="flex">
@@ -115,24 +114,25 @@ function OrderPage(props) {
               <OrderComment onAddComment={setCommentHandler} />
 
               <div className="border-t-2"></div>
-              {alertForPayment ? (
-                <div className="p-4 m-4 border-2 border-red-300 rounded-xl	">
+
+              <div className="p-4">
+                <div
+                  className={`p-2 ${
+                    alertForPayment && "border-2 border-red-400 rounded-xl"
+                  }`}
+                >
                   <PaymentDetails
                     onAddTip={setTipHandler}
-                    onSetPayment={setPaymentOptionHandler}
+                    paymentOption={paymentOption}
+                    setPaymentOption={setPaymentOption}
                   />
-                  <div className="text-center	font-bold	text-red-400">
-                    You need to select one payment option!
-                  </div>
+                  {alertForPayment && (
+                    <div className="text-center	font-bold	text-red-400 mt-4">
+                      You need to select one payment option!
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="p-4 ">
-                  <PaymentDetails
-                    onAddTip={setTipHandler}
-                    onSetPayment={setPaymentOptionHandler}
-                  />
-                </div>
-              )}
+              </div>
             </div>
 
             <div className="mt-4 xl:w-1/3">

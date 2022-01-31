@@ -8,50 +8,45 @@ import { ThumbUpIcon } from "@heroicons/react/solid";
 function PaymentDetails(props) {
   const { t } = useTranslation();
 
-  const [cardOption, setCardOption] = useState(false);
-  const [cashOption, setCashOption] = useState(false);
-
-  function cardOptionHandler() {
-    if (cashOption == true) setCashOption(false);
-    setCardOption(!cardOption);
-    props.onSetPayment("card");
-  }
-
-  function cashOptionHandler() {
-    if (cardOption == true) setCardOption(false);
-    setCashOption(!cashOption);
-    props.onSetPayment("cash");
+  function paymentSelector(arg) {
+    if (arg === props.paymentOption) props.setPaymentOption("");
+    else props.setPaymentOption(arg);
   }
 
   const selectedPaymentStyle = "bg-green-100 border-green-500 text-green-500";
   const notSelectedPaymentStyle = "border-gray-200 text-gray-500";
 
-  //if (cardOption === false && cashOption === false) props.onSetPayment("");
-
   return (
     <div className="flex flex-col">
       <div className="font-bold text-xl">{t("payment_header")}</div>
-
       <div className="mt-4 space-y-2">
         <div
           className={`flex justify-between border-2 rounded-lg p-3 ${
-            cardOption ? selectedPaymentStyle : notSelectedPaymentStyle
+            props.paymentOption === "card"
+              ? selectedPaymentStyle
+              : notSelectedPaymentStyle
           }`}
-          onClick={cardOptionHandler}
+          onClick={() => paymentSelector("card")}
         >
           <CreditCardIcon className="w-6 h-6 mr-2" />
           {t("payment_card")}
-          {cardOption && <CheckIcon className="w-6 h-6 mr-2 " />}
+          {props.paymentOption === "card" && (
+            <CheckIcon className="w-6 h-6 mr-2 " />
+          )}
         </div>
         <div
           className={`flex justify-between border-2 rounded-lg p-3 ${
-            cashOption ? selectedPaymentStyle : notSelectedPaymentStyle
+            props.paymentOption === "cash"
+              ? selectedPaymentStyle
+              : notSelectedPaymentStyle
           }`}
-          onClick={cashOptionHandler}
+          onClick={() => paymentSelector("cash")}
         >
           <CashIcon className="w-6 h-6 mr-2" />
           {t("payment_cash")}
-          {cashOption && <CheckIcon className="w-6 h-6 mr-2 " />}
+          {props.paymentOption === "cash" && (
+            <CheckIcon className="w-6 h-6 mr-2 " />
+          )}
         </div>
       </div>
 
@@ -59,19 +54,17 @@ function PaymentDetails(props) {
         <ThumbUpIcon className="w-6 h-6 mr-2" />
         <div className="text-sm mt-1">{t("payment_tip")}</div>
 
-        <div class="flex w-1/3 border-2 border-gray-300 rounded-lg">
-          <span class="inline-flex items-center px-3 text-sm text-gray-500">
+        <div className="flex w-1/3 border-2 border-gray-300 rounded-lg">
+          <span className="inline-flex items-center px-3 text-sm text-gray-500">
             €
           </span>
           <input
             type="number"
-            class="w-full rounded-lg outline-none pl-2"
+            className="w-full rounded-lg outline-none pl-2"
             placeholder="Tip"
           />
         </div>
       </div>
-
-      <div></div>
     </div>
   );
 }

@@ -6,10 +6,6 @@ import TopPicksOpenCard from "./TopPicksOpenCard";
 const TopPicksCard = (props) => {
   const [open, setOpen] = useState(false);
 
-  if (props.title.length > 22) {
-    const style = "text-sm";
-  }
-
   return (
     <Fragment>
       <div
