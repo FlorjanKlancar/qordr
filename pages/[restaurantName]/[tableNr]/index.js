@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Head from "next/head";
 import Restaurant from "../../../components/components/restaurant/Restaurant";
 import { Fragment, useState, useEffect } from "react";
@@ -10,8 +10,9 @@ import RestaurantPickLanguage from "../../../components/components/restaurant/Re
 import HttpApi from "i18next-http-backend";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import Spinner from "../../../components/components/spinner/index";
 import axios from "axios";
+import { db } from "../../../firebase/index";
+import { collection, getDocs, query } from "firebase/firestore";
 
 i18n
   .use(initReactI18next)
@@ -23,14 +24,30 @@ i18n
     },
   });
 
-export default function Home(props) {
-  const restaurantName = props.restaurantData[0].restaurantName;
+export default function Home({ restaurant, items: restaurantItems }) {
+  const items = restaurantItems.map((item) => item.item);
+  console.log(items);
+
+  const groupBy = (keys) => (array) =>
+    array.reduce((objectsByKeyValue, obj) => {
+      const value = keys.map((key) => obj[key]).join("-");
+      objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
+      return objectsByKeyValue;
+    }, {});
+
+  const groupByType = groupBy(["type"]);
+
+  const iterate = JSON.stringify(groupByType(items));
+
+  iterate.map((item) => console.log("item", item));
+
+  const restaurantName = restaurant[0].restaurantName;
   const [openCart, setOpenCart] = useState(false);
-  const [items, setItems] = useState(props.sideMenu);
+  //const [items, setItems] = useState(restaurantItems);
   const [language, setLanguage] = useState();
   const [favItems, setFavItems] = useState();
 
-  useEffect(() => {
+  /*  useEffect(() => {
     fetchData();
   }, []);
 
@@ -41,7 +58,7 @@ export default function Home(props) {
     setItems(response.data.showRestaurantSideMenu);
     setFavItems(response.data.favouriteItemsCard);
     console.log(response);
-  }
+  } */
 
   function openCartHandler() {
     setOpenCart(true);
@@ -73,8 +90,8 @@ export default function Home(props) {
           rel="stylesheet"
         />
       </Head>
-
-      {language ? (
+      helo
+      {/* {language ? (
         <Fragment>
           <Tooltip selector="#tooltip">
             {openCart && (
@@ -86,26 +103,33 @@ export default function Home(props) {
 
           <Cart onClick={openCartHandler} />
           <Restaurant
-            sideMenu={items}
-            restaurantInfo={props.restaurantData}
+            sideMenu={restaurantItems}
+            restaurantInfo={restaurant}
             favItems={favItems}
           />
         </Fragment>
       ) : (
         <RestaurantPickLanguage pickLang={pickLang} />
-      )}
+      )} */}
     </Fragment>
   );
 }
 
 export async function getStaticPaths() {
-  const response = await fetch(` https://qorder.link/api/restaurantInfo`);
-  const data = await response.json();
+  const q = query(collection(db, "restaurant"));
+  const querySnapshot = await getDocs(q);
+
+  let restaurantName;
+  let tableNr;
+  querySnapshot.docs.forEach((item) => {
+    restaurantName = item.data().queryName;
+    tableNr = item.data().tableNr;
+  });
 
   const tables = [];
-  for (var i = 1; i <= data[0].restaurantTables; i++) {
+  for (var i = 1; i <= tableNr; i++) {
     tables.push({
-      restaurant: data[0].queryName,
+      restaurantName: restaurantName.toLowerCase().toString(),
       tableNr: i.toString(),
     });
   }
@@ -114,7 +138,7 @@ export async function getStaticPaths() {
     paths: tables.map((tables) => {
       return {
         params: {
-          restaurantName: tables.restaurant,
+          restaurantName: tables.restaurantName,
           tableNr: tables.tableNr,
         },
       };
@@ -124,15 +148,23 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
-  const response = await fetch(` https://qorder.link/api/restaurantInfo`);
-  const data = await response.json();
+  const itemsQ = query(collection(db, "items"));
+  const queryItems = await getDocs(itemsQ);
 
-  const response2 = await fetch(
-    `https://qorder.link/api/showRestaurantSideMenu`
-  );
-  const sideMenu = await response2.json();
+  let items = [];
+  queryItems.docs.forEach((item) => {
+    items.push({ id: item.id, item: item.data() });
+  });
+
+  const restaurantQ = query(collection(db, "restaurant"));
+  const queryRestaurant = await getDocs(restaurantQ);
+
+  let restaurant = [];
+  queryRestaurant.docs.forEach((item) => {
+    restaurant.push(item.data());
+  });
 
   return {
-    props: { restaurantData: data, sideMenu: sideMenu },
+    props: { items: items, restaurant: restaurant },
   };
 }

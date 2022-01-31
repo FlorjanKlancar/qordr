@@ -1,13 +1,14 @@
 import SingleCard from "./SingleCard";
 import RestaurantSideInfo from "./RestaurantSideInfo";
 import RestaurantSideMenu from "./RestaurantSideMenu";
-import React, {useState, Fragment, useContext} from "react";
+import React, { useState, Fragment, useContext } from "react";
 import CartContext from "../store/cart-context";
 import SearchField from "./SearchField";
 import RestaurantSideMenuPC from "./RestaurantSideMenuPC";
 import TopPicks from "./TopPicks";
 
 function RestaurantCards(props) {
+  console.log("RESTCARDS", props);
   const cartCtx = useContext(CartContext);
 
   const cartItemRemoveHandler = (id) => {
@@ -15,7 +16,7 @@ function RestaurantCards(props) {
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({...item, amount: 1});
+    cartCtx.addItem({ ...item, amount: 1 });
   };
 
   const [search, setSearch] = useState("");
@@ -33,7 +34,7 @@ function RestaurantCards(props) {
           <SearchField setSearch={setSearch} />
           <TopPicks favItems={props.favItems} />
           <RestaurantSideMenu sideMenu={props.sideMenu} />
-          {props.sideMenu.map((item, index) => (
+          {props.sideMenu.item.map((item) => (
             <div key={index}>
               {item.Items.filter((val) => {
                 if (search === "") return val;
