@@ -1,14 +1,14 @@
-import {Fragment} from "react";
-import React, {useState} from "react";
+import { Fragment } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import {CSSTransition} from "react-transition-group";
-import {HeartIcon} from "@heroicons/react/solid";
-import {XIcon} from "@heroicons/react/solid";
+import { CSSTransition } from "react-transition-group";
+import { HeartIcon } from "@heroicons/react/solid";
+import { XIcon } from "@heroicons/react/solid";
 import redBackground from "../../../public/Screenshot_1.png";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 function SingleCard(props) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
   const [item, setItem] = useState(0);
@@ -158,8 +158,8 @@ function SingleCard(props) {
                     >
                       {props.cartCtx.items.map(
                         (item) =>
-                          item.idItem == props.id && (
-                            <div key={item.idItem}>{item.amount}</div>
+                          item.id == props.id && (
+                            <div key={item.id}>{item.amount}</div>
                           )
                       )}
                     </div>

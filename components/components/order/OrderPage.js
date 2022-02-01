@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import { useTranslation } from "react-i18next";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../../firebase/index";
 
 function OrderPage(props) {
   const { t } = useTranslation();
@@ -39,23 +41,32 @@ function OrderPage(props) {
     setAlertForItems(false);
   }
 
-  const insertOrder = [
-    {
-      items: cartCtx.items,
-      totalAmount: cartCtx.totalAmount,
-      customerComment: comment,
-      customerTip: tip,
-      paymentType: paymentOption,
-      restaurantTableNr: tableNr,
-    },
-  ];
+  const insertOrder = {
+    items: cartCtx.items,
+    totalAmount: cartCtx.totalAmount,
+    customerComment: comment,
+    customerTip: tip,
+    paymentType: paymentOption,
+    restaurantTableNr: tableNr,
+    timestamp: serverTimestamp(),
+  };
 
   async function orderTogglePage() {
-    if (paymentOption !== "" && cartCtx.items.length > 0) {
+    if (!paymentOption) setAlertForPayment(true);
+    else if (cartCtx.items.length === 0) setAlertForItems(true);
+    else {
+      const docRef = await addDoc(collection(db, "orders"), insertOrder);
+
+      if (docRef.id) {
+        setShowOrderPage(false);
+      }
+    }
+
+    /* if (paymentOption !== "" && cartCtx.items.length > 0) {
       await fetch(`https://qorder.link/api/insertOrder`, {
         method: "post",
         headers: {
-          Accept: "application/json, text/plain, */*",
+          Accept: "application/json, text/plain, ",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(insertOrder),
@@ -65,7 +76,7 @@ function OrderPage(props) {
     } else if (!paymentOption || cartCtx.items.length === 0) {
       if (!paymentOption) setAlertForPayment(true);
       if (cartCtx.items.length === 0) setAlertForItems(true);
-    }
+    } */
   }
 
   return (
@@ -101,13 +112,13 @@ function OrderPage(props) {
               </div>
               {cartCtx.items.map((item) => (
                 <OrderItem
-                  key={item.idItem}
+                  key={item.id}
                   amount={item.amount}
-                  name={item.itemTitle}
-                  pic={item.itemPicture}
-                  type={item.itemType}
-                  price={item.itemPrice}
-                  descr={item.itemDescription}
+                  name={item.title}
+                  pic={item.picture}
+                  type={item.type}
+                  price={item.price}
+                  descr={item.description}
                 />
               ))}
               <div className="border-t-2"></div>

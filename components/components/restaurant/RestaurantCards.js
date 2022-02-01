@@ -1,13 +1,13 @@
 import SingleCard from "./SingleCard";
 import RestaurantSideInfo from "./RestaurantSideInfo";
 import RestaurantSideMenu from "./RestaurantSideMenu";
-import React, {useState, Fragment, useContext} from "react";
+import React, { useState, Fragment, useContext } from "react";
 import CartContext from "../store/cart-context";
 import SearchField from "./SearchField";
 import RestaurantSideMenuPC from "./RestaurantSideMenuPC";
 import TopPicks from "./TopPicks";
 
-function RestaurantCards({sideMenu, restaurantInfo, favItems}) {
+function RestaurantCards({ sideMenu, restaurantInfo, favItems }) {
   const cartCtx = useContext(CartContext);
 
   const cartItemRemoveHandler = (id) => {
@@ -15,27 +15,28 @@ function RestaurantCards({sideMenu, restaurantInfo, favItems}) {
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({...item, amount: 1});
+    cartCtx.addItem({ ...item, amount: 1 });
   };
 
   const [search, setSearch] = useState("");
   return (
     <div className="flex flex-row xl:space-x-16">
-      {/*  <div className="hidden xl:block mt-12 w-1/3">
+      <div className="hidden xl:block mt-12 w-1/3">
         <RestaurantSideInfo restaurantInfo={restaurantInfo} />
-      </div> */}
-      {/* <div className="hidden xl:block order-2 mt-12 w-1/3">
+      </div>
+
+      <div className="hidden xl:block order-2 mt-12 w-1/3">
         <RestaurantSideMenuPC sideMenu={sideMenu} />
-      </div> */}
+      </div>
       <div className="mt-32 xl:mt-12 w-full md:w-2/3 xl:w-1/3  m-auto">
         <div className="space-y-4">
           <SearchField setSearch={setSearch} />
-          {/* <TopPicks favItems={props.favItems} />
-          <RestaurantSideMenu sideMenu={props.sideMenu} /> */}
+          <TopPicks favItems={favItems} />
+          <RestaurantSideMenu sideMenu={sideMenu} />
 
           {Object.keys(sideMenu).map(function (key, index) {
             return (
-              <div key={index}>
+              <div key={index} className="last:pb-16">
                 {sideMenu[key].filter((val) => {
                   if (search === "") return val;
                   else if (

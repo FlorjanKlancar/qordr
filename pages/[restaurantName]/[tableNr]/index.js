@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Restaurant from "../../../components/components/restaurant/Restaurant";
-import {Fragment, useState, useEffect} from "react";
+import { Fragment, useState, useEffect } from "react";
 import Tooltip from "../../../components/layout/ToolTip";
 import Modal from "../../../components/layout/Modal";
 import OpenCart from "../../../components/components/store/OpenCart";
@@ -9,10 +9,9 @@ import Cart from "../../../components/components/store/Cart";
 import RestaurantPickLanguage from "../../../components/components/restaurant/RestaurantPickLanguage";
 import HttpApi from "i18next-http-backend";
 import i18n from "i18next";
-import {initReactI18next} from "react-i18next";
-import axios from "axios";
-import {db} from "../../../firebase/index";
-import {collection, getDocs, query} from "firebase/firestore";
+import { initReactI18next } from "react-i18next";
+import { db } from "../../../firebase/index";
+import { collection, getDocs, query } from "firebase/firestore";
 
 i18n
   .use(initReactI18next)
@@ -24,8 +23,11 @@ i18n
     },
   });
 
-export default function Home({restaurant, items: restaurantItems}) {
-  console.log(restaurantItems);
+export default function Home({ restaurant, items: restaurantItems }) {
+  const favItems = restaurantItems.filter(
+    (item) => item.item.recommendation === true
+  );
+
   const groupedItems = restaurantItems
     .map((item) => item.item)
     .reduce((r, a) => {
@@ -34,22 +36,7 @@ export default function Home({restaurant, items: restaurantItems}) {
     }, {});
 
   const [openCart, setOpenCart] = useState(false);
-  //const [items, setItems] = useState(restaurantItems);
   const [language, setLanguage] = useState();
-  const [favItems, setFavItems] = useState();
-
-  /*  useEffect(() => {
-    fetchData();
-  }, []);
-
-  async function fetchData() {
-    console.log("fetch");
-    const response = await axios.get("/api/restaurant/items");
-
-    setItems(response.data.showRestaurantSideMenu);
-    setFavItems(response.data.favouriteItemsCard);
-    console.log(response);
-  } */
 
   function openCartHandler() {
     setOpenCart(true);
@@ -65,7 +52,7 @@ export default function Home({restaurant, items: restaurantItems}) {
   return (
     <Fragment>
       <Head>
-        <title>{restaurant[0].restaurantName}</title>
+        <title>{restaurant[0].name}</title>
 
         <link
           href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap"
@@ -144,7 +131,7 @@ export async function getStaticProps() {
 
   let items = [];
   queryItems.docs.forEach((item) => {
-    items.push({item: {...item.data(), id: item.id}});
+    items.push({ item: { ...item.data(), id: item.id } });
   });
 
   const restaurantQ = query(collection(db, "restaurant"));
@@ -156,6 +143,6 @@ export async function getStaticProps() {
   });
 
   return {
-    props: {items: items, restaurant: restaurant},
+    props: { items: items, restaurant: restaurant },
   };
 }

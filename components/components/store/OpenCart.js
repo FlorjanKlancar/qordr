@@ -1,13 +1,13 @@
-import {Fragment, useContext} from "react";
+import { Fragment, useContext } from "react";
 import CartContext from "./cart-context";
 import CartSingleItem from "./CartSingleItem";
 import Link from "next/link";
-import {useRouter} from "next/router";
-import {useTranslation} from "react-i18next";
-import {XIcon} from "@heroicons/react/solid";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
+import { XIcon } from "@heroicons/react/solid";
 
 function OpenCart(props) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const cartCtx = useContext(CartContext);
   const totalAmount = cartCtx.totalAmount.toFixed(2);
   const hasItems = cartCtx.items.length;
@@ -21,7 +21,7 @@ function OpenCart(props) {
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({...item, amount: 1});
+    cartCtx.addItem({ ...item, amount: 1 });
   };
 
   return (
@@ -40,12 +40,12 @@ function OpenCart(props) {
         </div>
         {cartCtx.items.map((item) => (
           <CartSingleItem
-            key={item.idItem}
-            img={item.itemPicture}
-            title={item.itemTitle}
+            key={item.id}
+            img={item.picture}
+            title={item.title}
             amount={item.amount}
-            price={item.itemPrice}
-            onRemove={cartItemRemoveHandler.bind(null, item.idItem)}
+            price={item.price}
+            onRemove={cartItemRemoveHandler.bind(null, item.id)}
             onAdd={cartItemAddHandler.bind(null, item)}
           />
         ))}
@@ -60,7 +60,7 @@ function OpenCart(props) {
             <Link
               href={{
                 pathname: "/[restaurantName]/[tableNr]/order",
-                query: {restaurantName: restaurantName, tableNr: tableNr},
+                query: { restaurantName: restaurantName, tableNr: tableNr },
               }}
               items={cartCtx}
             >

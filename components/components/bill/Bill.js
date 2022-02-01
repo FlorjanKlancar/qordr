@@ -1,14 +1,14 @@
-import React, {Fragment, useContext} from "react";
+import React, { Fragment, useContext } from "react";
 import CartContext from "../store/cart-context";
 import ListItems from "./ListItems";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import Lottie from "react-lottie";
 import animationData from "../../../public/lottie/waiter.json";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
 
 function Bill(props) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const router = useRouter();
 
   const cartCtx = useContext(CartContext);
@@ -56,10 +56,10 @@ function Bill(props) {
         <ul className="divide-y-2 divide-gray-100">
           {cartCtx.items.map((item) => (
             <ListItems
-              item={item.itemTitle}
-              price={item.itemPrice}
+              item={item.title}
+              price={item.price}
               amount={item.amount}
-              key={item.idItem}
+              key={item.id}
             />
           ))}
           {tip > 0 && (

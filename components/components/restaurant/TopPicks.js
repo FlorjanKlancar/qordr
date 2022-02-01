@@ -1,18 +1,7 @@
-import {Fragment, useState} from "react";
-import Modal from "../../layout/Modal";
+import { Fragment } from "react";
 import TopPicksCard from "./TopPicksCard";
 
 const TopPicks = (props) => {
-  const [openModal, setOpenModal] = useState(false);
-
-  function openModalHandler() {
-    setOpenModal(true);
-  }
-
-  function closeModalHandler() {
-    setOpenModal(false);
-  }
-
   return (
     <Fragment>
       <div
@@ -25,11 +14,11 @@ const TopPicks = (props) => {
         {props &&
           props.favItems?.map((item) => (
             <TopPicksCard
-              pic={item.itemPicture}
-              price={item.itemPrice}
-              title={item.itemTitle}
-              desc={item.itemDescription}
-              key={item.idItem}
+              pic={item.item.picture}
+              price={item.item.price}
+              title={item.item.title}
+              desc={item.item.description}
+              key={item.item.id}
             />
           ))}
       </div>

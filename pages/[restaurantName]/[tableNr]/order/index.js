@@ -1,28 +1,37 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import Head from "next/head";
 import OrderPage from "../../../../components/components/order/OrderPage";
+import { db } from "../../../../firebase/index";
+import { collection, getDocs, query } from "firebase/firestore";
 
-function Order(props) {
+function Order({ restaurant, items: restaurantItems }) {
   return (
     <Fragment>
       <Head>
-        <title>Order</title>
+        <title>Order - {restaurant[0].name}</title>
       </Head>
 
-      <OrderPage restaurantInfo={props.restaurantData} />
+      <OrderPage restaurantInfo={restaurant} />
     </Fragment>
   );
 }
 export default Order;
 
 export async function getStaticPaths() {
-  const response = await fetch(` https://qorder.link/api/restaurantInfo`);
-  const data = await response.json();
+  const q = query(collection(db, "restaurant"));
+  const querySnapshot = await getDocs(q);
+
+  let restaurantName;
+  let tableNr;
+  querySnapshot.docs.forEach((item) => {
+    restaurantName = item.data().queryName;
+    tableNr = item.data().tableNr;
+  });
 
   const tables = [];
-  for (var i = 1; i <= data[0].restaurantTables; i++) {
+  for (var i = 1; i <= tableNr; i++) {
     tables.push({
-      restaurant: data[0].queryName,
+      restaurantName: restaurantName.toLowerCase().toString(),
       tableNr: i.toString(),
     });
   }
@@ -31,7 +40,7 @@ export async function getStaticPaths() {
     paths: tables.map((tables) => {
       return {
         params: {
-          restaurantName: tables.restaurant,
+          restaurantName: tables.restaurantName,
           tableNr: tables.tableNr,
         },
       };
@@ -41,15 +50,23 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
-  const response = await fetch(` https://qorder.link/api/restaurantInfo`);
-  const data = await response.json();
+  const itemsQ = query(collection(db, "items"));
+  const queryItems = await getDocs(itemsQ);
 
-  const response2 = await fetch(
-    `https://qorder.link/api/showRestaurantSideMenu`
-  );
-  const sideMenu = await response2.json();
+  let items = [];
+  queryItems.docs.forEach((item) => {
+    items.push({ item: { ...item.data(), id: item.id } });
+  });
+
+  const restaurantQ = query(collection(db, "restaurant"));
+  const queryRestaurant = await getDocs(restaurantQ);
+
+  let restaurant = [];
+  queryRestaurant.docs.forEach((item) => {
+    restaurant.push(item.data());
+  });
 
   return {
-    props: {restaurantData: data, sideMenu: sideMenu},
+    props: { items: items, restaurant: restaurant },
   };
 }
