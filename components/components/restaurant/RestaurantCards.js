@@ -1,13 +1,13 @@
 import SingleCard from "./SingleCard";
 import RestaurantSideInfo from "./RestaurantSideInfo";
 import RestaurantSideMenu from "./RestaurantSideMenu";
-import React, { useState, Fragment, useContext } from "react";
+import React, {useState, Fragment, useContext} from "react";
 import CartContext from "../store/cart-context";
 import SearchField from "./SearchField";
 import RestaurantSideMenuPC from "./RestaurantSideMenuPC";
 import TopPicks from "./TopPicks";
 
-function RestaurantCards({ sideMenu, restaurantInfo, favItems }) {
+function RestaurantCards({sideMenu, restaurantInfo, favItems}) {
   const cartCtx = useContext(CartContext);
 
   const cartItemRemoveHandler = (id) => {
@@ -15,7 +15,7 @@ function RestaurantCards({ sideMenu, restaurantInfo, favItems }) {
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({ ...item, amount: 1 });
+    cartCtx.addItem({...item, amount: 1});
   };
 
   const [search, setSearch] = useState("");
@@ -93,7 +93,7 @@ function RestaurantCards({ sideMenu, restaurantInfo, favItems }) {
                                   item.id
                                 )}
                                 onAdd={cartItemAddHandler.bind(null, item)}
-                                cartCtx={cartCtx}
+                                ctxItems={cartCtx.items}
                               />
                             ))}
                         </div>

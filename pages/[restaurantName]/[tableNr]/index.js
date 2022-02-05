@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Restaurant from "../../../components/components/restaurant/Restaurant";
-import { Fragment, useState, useEffect } from "react";
+import {Fragment, useState, useEffect} from "react";
 import Tooltip from "../../../components/layout/ToolTip";
 import Modal from "../../../components/layout/Modal";
 import OpenCart from "../../../components/components/store/OpenCart";
@@ -9,9 +9,9 @@ import Cart from "../../../components/components/store/Cart";
 import RestaurantPickLanguage from "../../../components/components/restaurant/RestaurantPickLanguage";
 import HttpApi from "i18next-http-backend";
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import { db } from "../../../firebase/index";
-import { collection, getDocs, query } from "firebase/firestore";
+import {initReactI18next} from "react-i18next";
+import {db} from "../../../firebase/index";
+import {collection, getDocs, query} from "firebase/firestore";
 
 i18n
   .use(initReactI18next)
@@ -23,7 +23,7 @@ i18n
     },
   });
 
-export default function Home({ restaurant, items: restaurantItems }) {
+export default function Home({restaurant, items: restaurantItems}) {
   const favItems = restaurantItems.filter(
     (item) => item.item.recommendation === true
   );
@@ -131,7 +131,7 @@ export async function getStaticProps() {
 
   let items = [];
   queryItems.docs.forEach((item) => {
-    items.push({ item: { ...item.data(), id: item.id } });
+    items.push({item: {...item.data(), id: item.id}});
   });
 
   const restaurantQ = query(collection(db, "restaurant"));
@@ -143,6 +143,6 @@ export async function getStaticProps() {
   });
 
   return {
-    props: { items: items, restaurant: restaurant },
+    props: {items: items, restaurant: restaurant},
   };
 }

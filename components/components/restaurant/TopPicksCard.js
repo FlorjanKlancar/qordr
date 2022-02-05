@@ -1,15 +1,20 @@
 import Image from "next/image";
-import { HeartIcon } from "@heroicons/react/solid";
-import { Fragment, useState } from "react";
+import {HeartIcon} from "@heroicons/react/solid";
+import {Fragment, useState, useContext} from "react";
 import TopPicksOpenCard from "./TopPicksOpenCard";
+import SingleCardAddRemove from "./SingleCardAddRemove";
 
 const TopPicksCard = (props) => {
   const [open, setOpen] = useState(false);
 
+  const currentItem = props.ctxItems.filter(
+    (item) => item.id == props.id && <div key={item.id}>{item.amount}</div>
+  );
+
   return (
     <Fragment>
       <div
-        className="snap-center snap-always shrink-0 rounded-xl border shadow-lg border-default border-opacity-30 items-center mt-4 "
+        className="snap-center snap-always shrink-0 rounded-xl border shadow-lg border-default border-opacity-30 items-center"
         onClick={() => setOpen(true)}
       >
         <div className="relative w-56 h-32 m-2 ">
@@ -22,16 +27,14 @@ const TopPicksCard = (props) => {
           />
         </div>
 
-        {
-          <div
-            className={
-              "text-center font-medium " +
-              (props.title.length > 25 ? "text-sm" : "text-lg")
-            }
-          >
-            {props.title}
-          </div>
-        }
+        <div
+          className={
+            "text-center font-medium " +
+            (props.title.length > 25 ? "text-sm" : "text-lg")
+          }
+        >
+          {props.title}
+        </div>
 
         <div className="flex p-2 h-12 ">
           <div className="w-1/3 font-light text-center bg-white rounded border-2 border-black border-opacity-10 ">
@@ -47,9 +50,11 @@ const TopPicksCard = (props) => {
         </div>
 
         <div className="p-2">
-          <button className="bg-default text-white font-bold py-2 px-4 rounded w-full ">
-            Add to cart
-          </button>
+          <SingleCardAddRemove
+            onRemove={props.onRemove}
+            onAdd={props.onAdd}
+            currentItem={currentItem}
+          />
         </div>
       </div>
 

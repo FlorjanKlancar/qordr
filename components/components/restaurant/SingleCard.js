@@ -1,25 +1,18 @@
-import { Fragment } from "react";
-import React, { useState } from "react";
+import {Fragment} from "react";
+import React, {useState} from "react";
 import Image from "next/image";
-import { CSSTransition } from "react-transition-group";
-import { HeartIcon } from "@heroicons/react/solid";
-import { XIcon } from "@heroicons/react/solid";
+import {CSSTransition} from "react-transition-group";
+import {HeartIcon} from "@heroicons/react/solid";
+import {XIcon} from "@heroicons/react/solid";
 import redBackground from "../../../public/Screenshot_1.png";
-import { useTranslation } from "react-i18next";
+import SingleCardAddRemove from "./SingleCardAddRemove";
 
 function SingleCard(props) {
-  const { t } = useTranslation();
-
   const [open, setOpen] = useState(false);
-  const [item, setItem] = useState(0);
-  const [plus, setPlus] = useState(false);
 
-  function itemsHandler(e) {
-    e.stopPropagation();
-    setItem(item + 1);
-    setPlus(true);
-    props.onAdd();
-  }
+  const currentItem = props.ctxItems.filter(
+    (item) => item.id == props.id && <div key={item.id}>{item.amount}</div>
+  );
 
   return (
     <Fragment>
@@ -119,63 +112,12 @@ function SingleCard(props) {
             </div>
 
             <hr />
-
             <div className="p-4">
-              <div className="grid grid-cols-1 items-center text-center w-full ">
-                {!plus ? (
-                  <button
-                    className="bg-default text-white font-bold py-2 px-4 rounded "
-                    onClick={itemsHandler}
-                  >
-                    {t("restaurant_cart_button")}
-                  </button>
-                ) : null}
-
-                {plus && (
-                  <div className="grid grid-cols-3 items-center text-center w-full h-full">
-                    <div
-                      className="hover:bg-gray-100 text-grey-900 font-semibold  py-2 px-4 border text-grey-300 rounded"
-                      onClick={(e) => {
-                        e.stopPropagation();
-
-                        if (item > 1) {
-                          setItem(item - 1);
-                          props.onRemove();
-                        } else {
-                          setItem(item - 1);
-                          props.onRemove();
-                          setPlus(false);
-                        }
-                      }}
-                    >
-                      -
-                    </div>
-                    <div
-                      className="hover:bg-gray-100 text-grey-900 font-semibold  py-2 px-4 border text-grey-300 rounded "
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    >
-                      {props.cartCtx.items.map(
-                        (item) =>
-                          item.id == props.id && (
-                            <div key={item.id}>{item.amount}</div>
-                          )
-                      )}
-                    </div>
-                    <div
-                      className="hover:bg-gray-100 text-grey-900 font-semibold  py-2 px-4 border text-grey-300 rounded"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setItem(item + 1);
-                        props.onAdd();
-                      }}
-                    >
-                      +
-                    </div>
-                  </div>
-                )}
-              </div>
+              <SingleCardAddRemove
+                currentItem={currentItem}
+                onAdd={props.onAdd}
+                onRemove={props.onRemove}
+              />
             </div>
           </div>
         </div>
