@@ -1,6 +1,7 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import {Fragment} from "react";
+import {Dialog, Transition} from "@headlessui/react";
 import Image from "next/image";
+import {XIcon} from "@heroicons/react/solid";
 
 export default function TopPicksOpenCard(props) {
   return (
@@ -41,6 +42,12 @@ export default function TopPicksOpenCard(props) {
                     objectFit="fill"
                     className="rounded-lg"
                   />
+                  <div className="absolute right-4 top-4 z-10 border-2 border-gray-300 rounded-full p-2 text-gray-300 hover:cursor-pointer">
+                    <XIcon
+                      className="w-5 h-5 text-gray-500"
+                      onClick={() => props.setOpen(false)}
+                    />
+                  </div>
                 </div>
 
                 <hr className="col-span-3 solid w-full m-auto mt-2" />
@@ -59,20 +66,8 @@ export default function TopPicksOpenCard(props) {
                 </div>
 
                 <hr className="col-span-3 solid w-full m-auto mt-2" />
-                <div className="bg-gray-50 px-4 py-3 w-full">
-                  <button
-                    type="button"
-                    className="w-1/2 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 "
-                    onClick={() => props.setOpen(false)}
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="button"
-                    className="w-1/2 bg-default text-white font-bold py-2 px-4 rounded "
-                  >
-                    Add to cart!
-                  </button>
+                <div className="bg-gray-50 px-4 py-3 w-full flex">
+                  {props.addRemove}
                 </div>
               </div>
             </Transition.Child>

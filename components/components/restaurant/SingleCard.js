@@ -95,7 +95,7 @@ function SingleCard(props) {
                 className="rounded-lg"
               />
               <div className="absolute right-4 top-4 z-10 border-2 border-gray-300 rounded-full p-2 text-gray-300 hover:cursor-pointer">
-                <XIcon className="w-5 h-5" />
+                <XIcon className="w-5 h-5 text-gray-500" />
               </div>
             </div>
 

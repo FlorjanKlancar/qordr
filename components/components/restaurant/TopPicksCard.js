@@ -11,6 +11,14 @@ const TopPicksCard = (props) => {
     (item) => item.id == props.id && <div key={item.id}>{item.amount}</div>
   );
 
+  const addRemove = (
+    <SingleCardAddRemove
+      onRemove={props.onRemove}
+      onAdd={props.onAdd}
+      currentItem={currentItem}
+    />
+  );
+
   return (
     <Fragment>
       <div
@@ -49,16 +57,15 @@ const TopPicksCard = (props) => {
           </div>
         </div>
 
-        <div className="p-2">
-          <SingleCardAddRemove
-            onRemove={props.onRemove}
-            onAdd={props.onAdd}
-            currentItem={currentItem}
-          />
-        </div>
+        <div className="p-2">{addRemove}</div>
       </div>
 
-      <TopPicksOpenCard open={open} setOpen={setOpen} item={props} />
+      <TopPicksOpenCard
+        open={open}
+        setOpen={setOpen}
+        item={props}
+        addRemove={addRemove}
+      />
     </Fragment>
   );
 };
