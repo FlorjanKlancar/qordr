@@ -3,6 +3,7 @@ import {HeartIcon} from "@heroicons/react/solid";
 import {Fragment, useState, useContext} from "react";
 import TopPicksOpenCard from "./TopPicksOpenCard";
 import SingleCardAddRemove from "./SingleCardAddRemove";
+import Modal from "../modal/Modal";
 
 const TopPicksCard = (props) => {
   const [open, setOpen] = useState(false);
@@ -60,12 +61,9 @@ const TopPicksCard = (props) => {
         <div className="p-2">{addRemove}</div>
       </div>
 
-      <TopPicksOpenCard
-        open={open}
-        setOpen={setOpen}
-        item={props}
-        addRemove={addRemove}
-      />
+      <Modal open={open} setOpen={setOpen}>
+        <TopPicksOpenCard item={props} addRemove={addRemove} />
+      </Modal>
     </Fragment>
   );
 };

@@ -44,13 +44,13 @@ function SingleRow(props) {
               <div className="flex flex-wrap p-2" key={index}>
                 <div className="w-3/12 float-left">
                   <div className="w-28 h-16  relative top-2 right-2 ">
-                    <Image
+                    {/*  <Image
                       alt="Picture"
                       src={item.itemPicture}
                       layout="fill"
                       objectFit="fill"
                       className="rounded-lg"
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div className="w-8/12 text-left  font-semibold ">
