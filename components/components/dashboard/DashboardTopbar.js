@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
-import {useUser} from "@auth0/nextjs-auth0";
+import { useSession } from "next-auth/react";
 import Avatar from "@mui/material/Avatar";
 import Link from "next/link";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -10,7 +10,7 @@ import ListIcon from "@material-ui/icons/List";
 import PersonIcon from "@material-ui/icons/Person";
 import HistoryIcon from "@material-ui/icons/History";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -23,12 +23,16 @@ import Image from "next/image";
 const DashboardTopbar = (props) => {
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
-  const [state, setState] = React.useState({
+
+  const [state, setState] = useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
+
+  const { data: session } = useSession();
+  console.log("session", session);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -38,12 +42,12 @@ const DashboardTopbar = (props) => {
       return;
     }
 
-    setState({...state, [anchor]: open});
+    setState({ ...state, [anchor]: open });
   };
 
   const list = (anchor) => (
     <Box
-      sx={{width: anchor === "top" || anchor === "bottom" ? "auto" : 250}}
+      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
@@ -61,12 +65,12 @@ const DashboardTopbar = (props) => {
                       onClick={() => setState(false)}
                     />
                   </div>
-                  <div className="rounded-full h-12 w-12 flex items-center justify-center bg-gray-300 bg-opacity-30">
+                  {/*  <div className="rounded-full h-12 w-12 flex items-center justify-center bg-gray-300 bg-opacity-30">
                     <Avatar alt={user.name} src={user.picture} />
-                  </div>
+                  </div> */}
                 </div>
                 <p className="text-gray-200 text-base font-bold  ">Profile</p>
-                <p className="text-gray-50 text-lg">{user.name}</p>
+                {/*  <p className="text-gray-50 text-lg">{user.name}</p> */}
                 <p className="text-gray-300 text-sm">Administrator</p>
               </div>
 
@@ -75,7 +79,7 @@ const DashboardTopbar = (props) => {
               <Link
                 href={{
                   pathname: "/[restaurantName]/dashboard/",
-                  query: {restaurantName: restaurantName},
+                  query: { restaurantName: restaurantName },
                 }}
               >
                 <div
@@ -95,7 +99,7 @@ const DashboardTopbar = (props) => {
               <Link
                 href={{
                   pathname: "/[restaurantName]/dashboard/orders",
-                  query: {restaurantName: restaurantName},
+                  query: { restaurantName: restaurantName },
                 }}
               >
                 <div
@@ -115,7 +119,7 @@ const DashboardTopbar = (props) => {
               <Link
                 href={{
                   pathname: "/[restaurantName]/dashboard/history",
-                  query: {restaurantName: restaurantName},
+                  query: { restaurantName: restaurantName },
                 }}
               >
                 <div
@@ -135,7 +139,7 @@ const DashboardTopbar = (props) => {
               <Link
                 href={{
                   pathname: "/[restaurantName]/dashboard/editProducts",
-                  query: {restaurantName: restaurantName},
+                  query: { restaurantName: restaurantName },
                 }}
               >
                 <div
@@ -156,7 +160,7 @@ const DashboardTopbar = (props) => {
               <Link
                 href={{
                   pathname: "/[restaurantName]/dashboard/overview",
-                  query: {restaurantName: restaurantName},
+                  query: { restaurantName: restaurantName },
                 }}
               >
                 <div
@@ -185,19 +189,10 @@ const DashboardTopbar = (props) => {
       </List>
       <Divider />
       <div className="ml-8">
-        <Image
-          src={qOrder}
-          alt="Picture of the author"
-          width={150}
-          height={56}
-        />
+        <Image src={qOrder} alt="qOrder" width={150} height={56} />
       </div>
     </Box>
   );
-  const {user, errorUser, isLoading} = useUser();
-
-  if (isLoading) return <div>Loading...</div>;
-  if (errorUser) return <div>{error.message}</div>;
 
   return (
     <div
@@ -220,7 +215,7 @@ const DashboardTopbar = (props) => {
       </div>
       <div className="flex flex-wrap mt-5 ml-5 space-x-1 xl:p-0 w-6/12 xl:w-1/3 xl:mt-0 xl:ml-0">
         <p className="text-gray-400 ">Restaurant: </p>
-        <p className="font-semibold">{props.restaurantData.restaurantName}</p>
+        <p className="font-semibold">{props.restaurantData}</p>
       </div>
       <div className="p-2 flex xl:space-x-2 text-gray-400 mr-3 xl:mr-0  w-3/12 xl:w-5/12 xl:justify-end	">
         <div className="flex-1 mt-4  ml-4 xl:invisible">Logout</div>
@@ -230,9 +225,11 @@ const DashboardTopbar = (props) => {
           </Link>
         </div>
         <div className="-mt-4 rounded-full h-12 w-12 flex items-center justify-center bg-gray-300 bg-opacity-30 invisible xl:visible">
-          <Avatar alt={user.name} src={user.picture} />
+          <Avatar alt={session?.user.name} src={session?.user.image} />
         </div>
-        <div className="invisible xl:visible">Welcome {user.name}!</div>
+        <div className="invisible xl:visible">
+          Welcome {session?.user.name}!
+        </div>
 
         <div className="invisible xl:visible">
           <Link

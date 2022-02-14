@@ -30,6 +30,7 @@
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.29.1",
     "next": "^12.0.9",
+    "next-auth": "^4.0.0-beta.7",
     "pusher-js": "^7.0.4",
     "react": "^18.0.0-rc.0",
     "react-chartjs-2": "^4.0.1",
