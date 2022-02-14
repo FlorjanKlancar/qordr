@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, {Fragment, useContext, useState} from "react";
 import RestaurantSideInfo from "../restaurant/RestaurantSideInfo";
 import OrderItem from "./OrderItem";
 import OrderComment from "./OrderComment";
@@ -8,15 +8,15 @@ import CartContext from "../store/cart-context";
 import RestaurantHeader from "../restaurant/RestaurantHeader";
 import Bill from "../bill/Bill";
 import AlertPopUp from "./AlertPopUp";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import Link from "next/link";
-import { ArrowLeftIcon } from "@heroicons/react/solid";
-import { useTranslation } from "react-i18next";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-import { db } from "../../../firebase/index";
+import {ArrowLeftIcon} from "@heroicons/react/solid";
+import {useTranslation} from "react-i18next";
+import {addDoc, collection, serverTimestamp} from "firebase/firestore";
+import {db} from "../../../firebase/index";
 
 function OrderPage(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
@@ -49,6 +49,7 @@ function OrderPage(props) {
     paymentType: paymentOption,
     restaurantTableNr: tableNr,
     timestamp: serverTimestamp(),
+    status: "pending",
   };
 
   async function orderTogglePage() {
@@ -61,22 +62,6 @@ function OrderPage(props) {
         setShowOrderPage(false);
       }
     }
-
-    /* if (paymentOption !== "" && cartCtx.items.length > 0) {
-      await fetch(`https://qorder.link/api/insertOrder`, {
-        method: "post",
-        headers: {
-          Accept: "application/json, text/plain, ",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(insertOrder),
-      }).then((res) => {
-        if (res.status === 200) setShowOrderPage(false);
-      });
-    } else if (!paymentOption || cartCtx.items.length === 0) {
-      if (!paymentOption) setAlertForPayment(true);
-      if (cartCtx.items.length === 0) setAlertForItems(true);
-    } */
   }
 
   return (

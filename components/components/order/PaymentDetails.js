@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { CreditCardIcon } from "@heroicons/react/solid";
-import { CheckIcon } from "@heroicons/react/solid";
-import { CashIcon } from "@heroicons/react/solid";
-import { ThumbUpIcon } from "@heroicons/react/solid";
+import React, {useState} from "react";
+import {useTranslation} from "react-i18next";
+import {CreditCardIcon} from "@heroicons/react/solid";
+import {CheckIcon} from "@heroicons/react/solid";
+import {CashIcon} from "@heroicons/react/solid";
+import {ThumbUpIcon} from "@heroicons/react/solid";
 
 function PaymentDetails(props) {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   function paymentSelector(arg) {
     if (arg === props.paymentOption) props.setPaymentOption("");
@@ -62,6 +62,7 @@ function PaymentDetails(props) {
             type="number"
             className="w-full rounded-lg outline-none pl-2"
             placeholder="Tip"
+            onChange={(e) => props.onAddTip(e.target.value)}
           />
         </div>
       </div>

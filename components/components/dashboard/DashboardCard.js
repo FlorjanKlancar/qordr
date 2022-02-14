@@ -3,7 +3,7 @@ import React from "react";
 const DashboardCard = (props) => {
   return (
     <div
-      className={`mt-2 xl:mt-0 transform hover:scale-105 cursor-pointer transition delay-100 xl:w-3/12 w-full p-2 py-4 shadow-xl  border rounded-xl bg-gradient-to-r ${props.color} `}
+      className={`mt-2 xl:mt-0 transform hover:scale-105 cursor-pointer transition delay-100 w-full p-2 py-4 shadow-xl border rounded-xl bg-gradient-to-b ${props.color} `}
     >
       <div className="flex justify-between">
         <div></div>
@@ -12,10 +12,10 @@ const DashboardCard = (props) => {
         </div>
       </div>
       <p className="text-gray-200 text-base font-bold  ">{props.title}</p>
-      <p className="text-gray-50 text-2xl">
+      <div className="text-gray-50 text-2xl">
         {props.number}
-        {props.currency == "yes" ? <span>€</span> : null}
-      </p>
+        {props.currency == "yes" && <span>€</span>}
+      </div>
       {props.bottomText}
     </div>
   );

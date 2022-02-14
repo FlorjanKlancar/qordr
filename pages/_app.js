@@ -1,13 +1,12 @@
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import Layout from "../components/layout/Layout";
 import CartProvider from "../components/components/store/CartProvider";
-import { Suspense } from "react";
-import { UserProvider } from "@auth0/nextjs-auth0";
-import { Auth0Provider } from "@auth0/auth0-react";
+import {Suspense} from "react";
+import {UserProvider} from "@auth0/nextjs-auth0";
+import {Auth0Provider} from "@auth0/auth0-react";
 import "react-toastify/dist/ReactToastify.css";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({Component, pageProps}) {
   return (
     <Suspense fallback="">
       <Auth0Provider
@@ -19,9 +18,7 @@ function MyApp({ Component, pageProps }) {
         <UserProvider>
           <CartProvider>
             <div id="overlays"></div>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
+            <Component {...pageProps} />
           </CartProvider>
         </UserProvider>
       </Auth0Provider>

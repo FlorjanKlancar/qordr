@@ -3,42 +3,33 @@ import Head from "next/head";
 import DashboardPage from "../../../components/components/dashboard/DashboardPage";
 import LayoutDashboard from "../../../components/layout/LayoutDashboard";
 import React from "react";
-import Pusher from "pusher-js";
 import {withPageAuthRequired} from "@auth0/nextjs-auth0";
-import axios from "axios";
 import Spinner from "../../../components/components/spinner";
+import {db} from "../../../firebase/index";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  orderBy,
+} from "firebase/firestore";
 
-export default withPageAuthRequired(function Dashboard(props) {
-  const [cardInfo, setCardInfo] = useState();
-  const [itemsOnOrder, setItemsOnOrder] = useState();
-  const [graphData, setGraphData] = useState();
+export default withPageAuthRequired(function Dashboard({restaurant, items}) {
+  const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    //Pusher.logToConsole = true;
-    var pusher = new Pusher("e1ac6f9cc2607b50daf4", {
-      cluster: "eu",
-    });
-    const channel = pusher.subscribe("new-order");
-    channel.bind("App\\Events\\NewOrder", function (data) {
-      console.log(data);
-      fetchData();
-    });
-    fetchData();
-  }, []);
-
-  async function fetchData() {
-    console.log("fetch");
-    const response = await axios.get("/api/dashboard/info");
-
-    setCardInfo(response.data.cardInfo);
-    setItemsOnOrder(response.data.itemsOrder);
-    setGraphData(response.data.graph);
-  }
+  useEffect(
+    () =>
+      onSnapshot(
+        query(collection(db, "orders"), orderBy("timestamp", "desc")),
+        (snapshot) => setOrders(snapshot.docs)
+      ),
+    [db]
+  );
 
   return (
     <Fragment>
       <Head>
-        <title>Dashboard - {props.restaurantData[0].restaurantName}</title>
+        <title>Dashboard - {restaurant[0].name}</title>
         <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap"
@@ -46,29 +37,28 @@ export default withPageAuthRequired(function Dashboard(props) {
         />
       </Head>
 
-      <LayoutDashboard restaurantData={props.restaurantData[0]}>
-        {cardInfo && itemsOnOrder && graphData ? (
-          <DashboardPage
-            orders={itemsOnOrder}
-            dashboardCards={cardInfo}
-            ordersGraph={graphData}
-          />
-        ) : (
-          <Spinner />
-        )}
+      <LayoutDashboard restaurantData={restaurant[0].name}>
+        {orders ? <DashboardPage orders={orders} /> : <Spinner />}
       </LayoutDashboard>
     </Fragment>
   );
 });
 
 export async function getStaticPaths() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/restaurantInfo`);
-  const data = await response.json();
+  const q = query(collection(db, "restaurant"));
+  const querySnapshot = await getDocs(q);
+
+  let restaurantName;
+  let tableNr;
+  querySnapshot.docs.forEach((item) => {
+    restaurantName = item.data().queryName;
+    tableNr = item.data().tableNr;
+  });
 
   const tables = [];
-  for (var i = 1; i <= data[0].restaurantTables; i++) {
+  for (var i = 1; i <= tableNr; i++) {
     tables.push({
-      restaurant: data[0].queryName,
+      restaurantName: restaurantName.toLowerCase().toString(),
       tableNr: i.toString(),
     });
   }
@@ -77,7 +67,7 @@ export async function getStaticPaths() {
     paths: tables.map((tables) => {
       return {
         params: {
-          restaurantName: tables.restaurant,
+          restaurantName: tables.restaurantName,
           tableNr: tables.tableNr,
         },
       };
@@ -87,13 +77,23 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/restaurantInfo`);
-  const data = await response.json();
+  const itemsQ = query(collection(db, "items"));
+  const queryItems = await getDocs(itemsQ);
+
+  let items = [];
+  queryItems.docs.forEach((item) => {
+    items.push({item: {...item.data(), id: item.id}});
+  });
+
+  const restaurantQ = query(collection(db, "restaurant"));
+  const queryRestaurant = await getDocs(restaurantQ);
+
+  let restaurant = [];
+  queryRestaurant.docs.forEach((item) => {
+    restaurant.push(item.data());
+  });
 
   return {
-    props: {
-      restaurantData: data,
-    },
-    revalidate: 1,
+    props: {items: items, restaurant: restaurant},
   };
 }
