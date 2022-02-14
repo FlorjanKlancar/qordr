@@ -46,10 +46,15 @@ const defaultGraph = {
 };
 
 const DashboardGraph = ({year, month, day}) => {
-  const [buttonState, setButtonState] = useState("daily");
+  console.log("dash graph", year, month, day);
 
-  function changeState(e) {
-    const value = e.target.value;
+  const [buttonState, setButtonState] = useState("daily");
+  const [graphData, setGraphData] = useState({
+    labels: dailyLabel,
+    datasets: [{...defaultGraph, data: dailyData}],
+  });
+
+  function changeState(value) {
     setButtonState(value);
 
     if (value === "daily") {
@@ -125,11 +130,9 @@ const DashboardGraph = ({year, month, day}) => {
   const button =
     "w-full bg-white hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 ";
 
-  const [graphData, setGraphData] = useState({
-    labels: dailyLabel,
-    datasets: [{...defaultGraph, data: dailyData}],
-  });
-  console.log(graphData);
+  useEffect(() => {
+    changeState(buttonState);
+  }, [year, month, day]);
 
   return (
     <div className="h-full">
@@ -144,7 +147,7 @@ const DashboardGraph = ({year, month, day}) => {
           <button
             className={buttonState === "yearly" ? activeButton : button}
             value="yearly"
-            onClick={(e) => changeState(e)}
+            onClick={() => changeState("yearly")}
           >
             Yearly
           </button>
@@ -153,7 +156,7 @@ const DashboardGraph = ({year, month, day}) => {
           <button
             className={buttonState === "monthly" ? activeButton : button}
             value="monthly"
-            onClick={(e) => changeState(e)}
+            onClick={() => changeState("monthly")}
           >
             Monthly
           </button>
@@ -162,7 +165,7 @@ const DashboardGraph = ({year, month, day}) => {
           <button
             className={buttonState === "daily" ? activeButton : button}
             value="daily"
-            onClick={(e) => changeState(e)}
+            onClick={() => changeState("daily")}
           >
             Daily
           </button>

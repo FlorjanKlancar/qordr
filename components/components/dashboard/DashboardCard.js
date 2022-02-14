@@ -12,10 +12,10 @@ const DashboardCard = (props) => {
         </div>
       </div>
       <p className="text-gray-200 text-base font-bold  ">{props.title}</p>
-      <p className="text-gray-50 text-2xl">
+      <div className="text-gray-50 text-2xl">
         {props.number}
         {props.currency == "yes" && <span>€</span>}
-      </p>
+      </div>
       {props.bottomText}
     </div>
   );

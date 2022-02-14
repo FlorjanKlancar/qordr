@@ -28,8 +28,6 @@ function DashboardPage({orders}) {
   const thisMonthStart = moment().startOf("month");
   const lastMonthStart = moment().subtract(1, "months").startOf("month");
 
-  const thisYear = moment().year();
-
   const ordersThisMonth = orders.filter(
     (o) => o.data().timestamp?.toDate() > thisMonthStart.toDate()
   );
@@ -49,12 +47,6 @@ function DashboardPage({orders}) {
     (order) => (incomeLastMonth = incomeLastMonth + order.data().totalAmount)
   );
 
-  let tableThisMonth = "No data yet";
-  let tableLastMonth = "No data yet";
-
-  let itemThisMonth = "No data yet";
-  let itemLastMonth = "No data yet";
-
   const percentOrders = percIncrease(
     ordersLastMonth.length,
     ordersThisMonth.length
@@ -71,18 +63,117 @@ function DashboardPage({orders}) {
     };
   });
 
-  console.log("ordersFull", ordersFull);
+  const tablesThisMonth = ordersThisMonth.map((order) => {
+    return {id: order.id, table: order.data().restaurantTableNr};
+  });
+  const tablesLastMonth = ordersLastMonth.map((order) => {
+    return {id: order.id, table: order.data().restaurantTableNr};
+  });
+
+  let itemsInOrdersThisMonth = [];
+  let itemsInOrdersLastMonth = [];
+  ordersThisMonth.forEach((order) =>
+    itemsInOrdersThisMonth.push(
+      order.data().items.map((item) => {
+        return {id: item.id, name: item.title};
+      })
+    )
+  );
+  ordersLastMonth.forEach((order) =>
+    itemsInOrdersLastMonth.push(
+      order.data().items.map((item) => {
+        return {id: item.id, name: item.title};
+      })
+    )
+  );
+
+  itemsInOrdersThisMonth = [].concat.apply([], itemsInOrdersThisMonth);
+  itemsInOrdersLastMonth = [].concat.apply([], itemsInOrdersLastMonth);
 
   const groupBy = (array, key) => {
-    // Return the reduced array
     return array.reduce((result, currentItem) => {
-      // If an array already present for key, push it to the array. Otherwise create an array and push the object.
       (result[currentItem[key]] = result[currentItem[key]] || []).push(
         currentItem
       );
-      // return the current iteration `result` value, this will be the next iteration's `result` value and accumulate
+
       return result;
-    }, {}); // Empty object is the initial value for result object
+    }, {});
+  };
+
+  const bestItemsThisMonth = groupBy(itemsInOrdersThisMonth, "id");
+  const bestItemsLastMonth = groupBy(itemsInOrdersLastMonth, "id");
+  const bestTableThisMonth = groupBy(tablesThisMonth, "table");
+  const bestTableLastMonth = groupBy(tablesLastMonth, "table");
+
+  const bestItemsThisMonthArray = Object.keys(bestItemsThisMonth).map(function (
+    key
+  ) {
+    {
+      return {
+        length: bestItemsThisMonth[key].length,
+        name: bestItemsThisMonth[key][0].name,
+      };
+    }
+  });
+  const bestItemsLastMonthArray = Object.keys(bestItemsLastMonth).map(function (
+    key
+  ) {
+    {
+      return {
+        length: bestItemsLastMonth[key].length,
+        name: bestItemsLastMonth[key][0].name,
+      };
+    }
+  });
+  const bestTableThisMonthArray = Object.keys(bestTableThisMonth).map(function (
+    key
+  ) {
+    {
+      return {
+        length: bestTableThisMonth[key].length,
+        table: bestTableThisMonth[key][0].table,
+      };
+    }
+  });
+  const bestTableLastMonthArray = Object.keys(bestTableLastMonth).map(function (
+    key
+  ) {
+    {
+      return {
+        length: bestTableLastMonth[key].length,
+        table: bestTableLastMonth[key][0].table,
+      };
+    }
+  });
+
+  bestItemsThisMonthArray.sort(function (a, b) {
+    return b.length - a.length;
+  });
+  bestItemsLastMonthArray.sort(function (a, b) {
+    return b.length - a.length;
+  });
+  bestTableThisMonthArray.sort(function (a, b) {
+    return b.length - a.length;
+  });
+  bestTableLastMonthArray.sort(function (a, b) {
+    return b.length - a.length;
+  });
+
+  const bestItemThisMonthCard = {
+    number: bestItemsThisMonthArray[0]?.length,
+    title: bestItemsThisMonthArray[0]?.name,
+  };
+  const bestItemLastMonthCard = {
+    number: bestItemsLastMonthArray[0]?.length,
+    title: bestItemsLastMonthArray[0]?.name,
+  };
+  const bestTableThisMonthCard = {
+    orders: bestTableThisMonthArray[0]?.length,
+    table: bestTableThisMonthArray[0]?.table,
+  };
+  const bestTableLastMonthCard = {
+    orders: bestTableLastMonthArray[0]?.length,
+    table: bestTableLastMonthArray[0]?.table,
   };
 
   const data = [
@@ -96,13 +187,15 @@ function DashboardPage({orders}) {
             percentOrders >= 0 ? "text-green-600" : "text-red-500"
           }  font-semibold`}
         >
-          <div className="flex flex-row space-x-4">
-            {percentOrders >= 0 ? (
-              <TrendingUpIcon className="w-5 h-5 mr-1 mt-1" />
-            ) : (
-              <TrendingDownIcon className="w-5 h-5 mr-1 mt-1" />
-            )}
-            {percentOrders}%{" "}
+          <div className="flex flex-row justify-between px-1">
+            <div className="flex">
+              {percentOrders >= 0 ? (
+                <TrendingUpIcon className="w-5 h-5 mr-1 mt-1" />
+              ) : (
+                <TrendingDownIcon className="w-5 h-5 mr-1 mt-1" />
+              )}
+              {percentOrders}%
+            </div>
             <span className="text-gray-200">
               Last month {ordersLastMonth.length} orders
             </span>
@@ -122,32 +215,39 @@ function DashboardPage({orders}) {
             percentIncome >= 0 ? "text-green-600" : "text-red-500"
           }  font-semibold`}
         >
-          <div className="flex flex-row space-x-4">
-            {percentIncome >= 0 ? (
-              <TrendingUpIcon className="w-5 h-5 mr-1 mt-1" />
-            ) : (
-              <TrendingDownIcon className="w-5 h-5 mr-1 mt-1" />
-            )}
-            {percentIncome}%
+          <div className="flex flex-row justify-between px-1">
+            <div className="flex">
+              {percentIncome >= 0 ? (
+                <TrendingUpIcon className="w-5 h-5 mr-1 mt-1" />
+              ) : (
+                <TrendingDownIcon className="w-5 h-5 mr-1 mt-1" />
+              )}
+              {percentIncome}%
+            </div>
             <span className="text-gray-200">
               Last month {incomeLastMonth.toFixed(2)}€
             </span>
           </div>
         </div>
       ),
-
       currency: "yes",
       color: "from-blue-500 via-blue-600 to-blue-700",
     },
 
     {
       title: "Most popular table",
-      number: tableThisMonth,
+      number: (
+        <div className="flex flex-row justify-between px-1 ">
+          <div>{`Table: ${bestTableThisMonthCard.table} `}</div>
+          <div>{`Orders: ${bestTableThisMonthCard.orders}`}</div>
+        </div>
+      ),
       icon: <TableIcon className="text-white p-1" />,
       bottomText: (
-        <span className="text-gray-300">
-          Last month table: {tableLastMonth}
-        </span>
+        <div className="flex flex-row justify-between px-1 text-gray-300">
+          <div>{`Last month Table: ${bestTableLastMonthCard.table} `}</div>
+          <div>{`Orders: ${bestTableLastMonthCard.orders}`}</div>
+        </div>
       ),
       currency: "no",
       color: "from-cyan-500 via-cyan-600 to-cyan-700",
@@ -155,14 +255,24 @@ function DashboardPage({orders}) {
 
     {
       title: "Most popular item",
-      number: itemThisMonth,
+      number: (
+        <div className="flex flex-row justify-between px-1 ">
+          <div>{`${bestItemThisMonthCard.title} `}</div>
+          <div>{`Orders: ${bestItemThisMonthCard.number}`}</div>
+        </div>
+      ),
       icon: <HeartIcon className="text-white p-1" />,
       bottomText: (
-        <span className="text-gray-300">Last month item {itemLastMonth}</span>
+        <div className="flex flex-row justify-between px-1 text-gray-300">
+          <div>{`Last month Item: ${bestItemLastMonthCard.title} `}</div>
+          <div>{`Orders: ${bestItemLastMonthCard.number}`}</div>
+        </div>
       ),
       color: "from-amber-500 via-amber-600 to-amber-700",
     },
   ];
+
+  console.log("ordersFull", ordersFull);
 
   return (
     <div id="container">
@@ -182,11 +292,13 @@ function DashboardPage({orders}) {
 
       <div className="flex flex-col xl:flex-row w-full p-4 xl:space-x-4">
         <div className="shadow-xl border-2 border-gray-200 rounded border-opacity-20 w-full xl:w-1/2 h-[606px]">
-          <DashboardGraph
-            year={groupBy(ordersFull, "year")}
-            month={groupBy(ordersFull, "month")}
-            day={groupBy(ordersFull, "day")}
-          />
+          {ordersFull.length && (
+            <DashboardGraph
+              year={groupBy(ordersFull, "year")}
+              month={groupBy(ordersFull, "month")}
+              day={groupBy(ordersFull, "day")}
+            />
+          )}
         </div>
 
         {
