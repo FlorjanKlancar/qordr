@@ -1,27 +1,20 @@
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import CartProvider from "../components/components/store/CartProvider";
-import {Suspense} from "react";
-import {UserProvider} from "@auth0/nextjs-auth0";
-import {Auth0Provider} from "@auth0/auth0-react";
+import { Suspense } from "react";
+
+import { SessionProvider } from "next-auth/react";
 import "react-toastify/dist/ReactToastify.css";
 
-function MyApp({Component, pageProps}) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <Suspense fallback="">
-      <Auth0Provider
-        domain="dev-xc46j-dt.us.auth0.com"
-        clientId="dpuQMhLJyvMIZCUgbNFcE41sfw3faNqb"
-        redirectUri="http://localhost:3000/api/auth/callback"
-        audience="https://qorder.link/api"
-      >
-        <UserProvider>
-          <CartProvider>
-            <div id="overlays"></div>
-            <Component {...pageProps} />
-          </CartProvider>
-        </UserProvider>
-      </Auth0Provider>
+      <SessionProvider session={session}>
+        <CartProvider>
+          <div id="overlays"></div>
+          <Component {...pageProps} />
+        </CartProvider>
+      </SessionProvider>
     </Suspense>
   );
 }
