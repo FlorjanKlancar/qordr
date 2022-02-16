@@ -1,6 +1,6 @@
-import { getProviders, signIn } from "next-auth/react";
+import {getProviders, signIn} from "next-auth/react";
 
-export default function SignIn({ providers }) {
+export default function SignIn({providers}) {
   return (
     <div className="h-screen">
       <div className="pt-80">
@@ -8,7 +8,9 @@ export default function SignIn({ providers }) {
           <div key={provider.name}>
             <button
               className="bg-blue-500 rounded-lg px-4 py-3 w-full text-white font-semibold"
-              onClick={() => signIn(provider.id, { callbackUrl: "/" })}
+              onClick={() =>
+                signIn(provider.id, {callbackUrl: "/pops/dashboard"})
+              }
             >
               Sign in with {provider.name}
             </button>
@@ -23,6 +25,6 @@ export default function SignIn({ providers }) {
 export async function getServerSideProps(context) {
   const providers = await getProviders();
   return {
-    props: { providers },
+    props: {providers},
   };
 }

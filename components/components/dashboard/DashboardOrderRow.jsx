@@ -18,7 +18,7 @@ function DashboardOrderRow({order}) {
   }
 
   return (
-    <tr className="overflow-x-auto">
+    <tr>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10">
@@ -54,7 +54,7 @@ function DashboardOrderRow({order}) {
           </div>
           <div className="text-xs text-gray-400 ">
             <Moment fromNow ago>
-              {moment(order.timestamp.toDate()).format("YYYY-MM-DD")}
+              {moment(order.timestamp.toDate())}
             </Moment>{" "}
             ago
           </div>

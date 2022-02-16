@@ -5,7 +5,7 @@ import ListIcon from "@material-ui/icons/List";
 import PersonIcon from "@material-ui/icons/Person";
 import HistoryIcon from "@material-ui/icons/History";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import qOrder from "../../../public/Q-Order.png";
@@ -26,7 +26,7 @@ const DashboardSidebar = () => {
           <Link
             href={{
               pathname: "/[restaurantName]/dashboard",
-              query: { restaurantName: restaurantName },
+              query: {restaurantName: restaurantName},
             }}
           >
             <div
@@ -46,7 +46,7 @@ const DashboardSidebar = () => {
           <Link
             href={{
               pathname: "/[restaurantName]/dashboard/orders",
-              query: { restaurantName: restaurantName },
+              query: {restaurantName: restaurantName},
             }}
           >
             <div
@@ -66,7 +66,7 @@ const DashboardSidebar = () => {
           <Link
             href={{
               pathname: "/[restaurantName]/dashboard/history",
-              query: { restaurantName: restaurantName },
+              query: {restaurantName: restaurantName},
             }}
           >
             <div
@@ -86,7 +86,7 @@ const DashboardSidebar = () => {
           <Link
             href={{
               pathname: "/[restaurantName]/dashboard/editProducts",
-              query: { restaurantName: restaurantName },
+              query: {restaurantName: restaurantName},
             }}
           >
             <div
@@ -106,7 +106,7 @@ const DashboardSidebar = () => {
           <Link
             href={{
               pathname: "/[restaurantName]/dashboard/overview",
-              query: { restaurantName: restaurantName },
+              query: {restaurantName: restaurantName},
             }}
           >
             <div

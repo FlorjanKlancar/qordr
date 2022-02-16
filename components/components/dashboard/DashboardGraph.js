@@ -46,8 +46,6 @@ const defaultGraph = {
 };
 
 const DashboardGraph = ({year, month, day}) => {
-  console.log("dash graph", year, month, day);
-
   const [buttonState, setButtonState] = useState("daily");
   const [graphData, setGraphData] = useState({
     labels: dailyLabel,
@@ -134,6 +132,7 @@ const DashboardGraph = ({year, month, day}) => {
     changeState(buttonState);
   }, [year, month, day]);
 
+  console.log("graphData", graphData);
   return (
     <div className="h-full">
       <div className="border-b p-3 border-gray-100">

@@ -9,16 +9,16 @@ export default function DashboardCardOrders({orders}) {
         <p className="font-semibold text-lg">Restaurant recent orders</p>
       </div>
 
-      <div className="flex flex-col">
-        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="py-2 align-middle inline-block w-full sm:px-6 lg:px-8">
+      <div className="flex flex-col w-full">
+        <div>
+          <div className="align-middle inline-block w-full ">
             <div className="overflow-y-auto p-3" id="dashboard_scroll">
               <table className="w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50 sticky top-0 z-50">
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="h-full px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
                       Table
                     </th>
@@ -47,9 +47,20 @@ export default function DashboardCardOrders({orders}) {
                 </thead>
 
                 <tbody className="bg-white divide-y divide-gray-200 overflow-x-auto">
-                  {orders.map((order, index) => (
-                    <DashboardOrderRow key={index} order={order} />
-                  ))}
+                  {orders.length ? (
+                    orders.map((order, index) => (
+                      <DashboardOrderRow key={index} order={order} />
+                    ))
+                  ) : (
+                    <tr className="text-center h-full ">
+                      <td
+                        colSpan="5"
+                        className="font-semibold h-12 text-gray-400"
+                      >
+                        Currently no orders!
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

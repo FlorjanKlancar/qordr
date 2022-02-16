@@ -237,16 +237,32 @@ function DashboardPage({orders}) {
     {
       title: "Most popular table",
       number: (
-        <div className="flex flex-row justify-between px-1 ">
-          <div>{`Table: ${bestTableThisMonthCard.table} `}</div>
-          <div>{`Orders: ${bestTableThisMonthCard.orders}`}</div>
+        <div className="flex flex-row justify-between px-1 text-sm md:text-lg xl:text-xl">
+          <div>{`Table: ${
+            bestTableThisMonthCard.table
+              ? bestTableThisMonthCard.table
+              : "No data"
+          } `}</div>
+          <div>{`Orders: ${
+            bestTableThisMonthCard.orders
+              ? bestTableThisMonthCard.orders
+              : "No data"
+          }`}</div>
         </div>
       ),
       icon: <TableIcon className="text-white p-1" />,
       bottomText: (
-        <div className="flex flex-row justify-between px-1 text-gray-300">
-          <div>{`Last month Table: ${bestTableLastMonthCard.table} `}</div>
-          <div>{`Orders: ${bestTableLastMonthCard.orders}`}</div>
+        <div className="flex flex-row justify-between px-1 text-gray-300 text-sm md:text-base">
+          <div>{`Last month Table: ${
+            bestTableLastMonthCard.table
+              ? bestTableLastMonthCard.table
+              : "No data"
+          } `}</div>
+          <div>{`Orders: ${
+            bestTableLastMonthCard.orders
+              ? bestTableLastMonthCard.orders
+              : "No data"
+          }`}</div>
         </div>
       ),
       currency: "no",
@@ -257,26 +273,40 @@ function DashboardPage({orders}) {
       title: "Most popular item",
       number: (
         <div className="flex flex-row justify-between px-1 ">
-          <div>{`${bestItemThisMonthCard.title} `}</div>
-          <div>{`Orders: ${bestItemThisMonthCard.number}`}</div>
+          <div className="truncate w-3/4 text-sm md:text-lg xl:text-xl">{`${
+            bestItemThisMonthCard.title
+              ? bestItemThisMonthCard.title
+              : "No data"
+          } `}</div>
+          <div className="text-sm md:text-lg">{`Orders: ${
+            bestItemThisMonthCard.number
+              ? bestItemThisMonthCard.number
+              : "No data"
+          }`}</div>
         </div>
       ),
       icon: <HeartIcon className="text-white p-1" />,
       bottomText: (
-        <div className="flex flex-row justify-between px-1 text-gray-300">
-          <div>{`Last month Item: ${bestItemLastMonthCard.title} `}</div>
-          <div>{`Orders: ${bestItemLastMonthCard.number}`}</div>
+        <div className="flex flex-row justify-between px-1 text-gray-300 text-sm md:text-base">
+          <div className="truncate w-4/6">{`Last month: ${
+            bestItemLastMonthCard.title
+              ? bestItemLastMonthCard.title
+              : "No data"
+          } `}</div>
+          <div className="">{`Orders: ${
+            bestItemLastMonthCard.number
+              ? bestItemLastMonthCard.number
+              : "No data"
+          }`}</div>
         </div>
       ),
       color: "from-amber-500 via-amber-600 to-amber-700",
     },
   ];
 
-  console.log("ordersFull", ordersFull);
-
   return (
     <div id="container">
-      <div className="flex flex-wrap p-4 xl:space-x-3 xl:flex-nowrap">
+      <div className="flex flex-col md:grid md:grid-cols-2 mx-2 md:gap-2 xl:mt-4 2xl:grid-cols-4">
         {data.map((item, index) => (
           <DashboardCard
             key={index}
@@ -292,7 +322,7 @@ function DashboardPage({orders}) {
 
       <div className="flex flex-col xl:flex-row w-full p-4 xl:space-x-4">
         <div className="shadow-xl border-2 border-gray-200 rounded border-opacity-20 w-full xl:w-1/2 h-[606px]">
-          {ordersFull.length && (
+          {ordersFull && (
             <DashboardGraph
               year={groupBy(ordersFull, "year")}
               month={groupBy(ordersFull, "month")}
@@ -301,11 +331,9 @@ function DashboardPage({orders}) {
           )}
         </div>
 
-        {
-          <div className="shadow-xl border-2 border-gray-200 rounded border-opacity-20  w-full xl:w-1/2 h-[606px]">
-            <DashboardCardOrders orders={ordersFull} />
-          </div>
-        }
+        <div className="shadow-xl border-2 border-gray-200 rounded border-opacity-20   xl:w-1/2 h-[606px]">
+          <DashboardCardOrders orders={ordersFull} />
+        </div>
       </div>
     </div>
   );
