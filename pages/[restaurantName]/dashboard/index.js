@@ -1,11 +1,13 @@
-import {Fragment, useState, useEffect} from "react";
+import { Fragment, useState, useEffect } from "react";
 import Head from "next/head";
 import DashboardPage from "../../../components/components/dashboard/DashboardPage";
 import LayoutDashboard from "../../../components/layout/LayoutDashboard";
 import React from "react";
-import {withPageAuthRequired} from "@auth0/nextjs-auth0";
+import { withPageAuthRequired } from "@auth0/nextjs-auth0";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import Spinner from "../../../components/components/spinner";
-import {db} from "../../../firebase/index";
+import { db } from "../../../firebase/index";
 import {
   collection,
   getDocs,
@@ -14,8 +16,11 @@ import {
   orderBy,
 } from "firebase/firestore";
 
-export default function Dashboard({restaurant, items}) {
+export default function Dashboard({ restaurant, items }) {
   const [orders, setOrders] = useState([]);
+  const { data: session } = useSession();
+
+  const router = useRouter();
 
   useEffect(
     () =>
@@ -82,7 +87,7 @@ export async function getStaticProps() {
 
   let items = [];
   queryItems.docs.forEach((item) => {
-    items.push({item: {...item.data(), id: item.id}});
+    items.push({ item: { ...item.data(), id: item.id } });
   });
 
   const restaurantQ = query(collection(db, "restaurant"));
@@ -94,6 +99,6 @@ export async function getStaticProps() {
   });
 
   return {
-    props: {items: items, restaurant: restaurant},
+    props: { items: items, restaurant: restaurant },
   };
 }

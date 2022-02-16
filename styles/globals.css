@@ -81,18 +81,10 @@ div[id$="_header"] {
 }
 
 #container_dashboard {
-  width: calc(100% - 18rem);
-  margin-top: 3.5rem;
-  float: right;
-  z-index: 999;
-}
-
-#header_dashboard {
-  width: calc(100% - 18rem);
-  float: right;
-  position: fixed;
-  right: 0;
-  z-index: 20;
+  width: calc(100% - 17rem);
+  background-color: rgb(244 244 245);
+  height: 93vh;
+  margin-left: 260px;
 }
 
 #dashboard_scroll {
@@ -106,8 +98,8 @@ div[id$="_header"] {
 @media only screen and (max-width: 1280px) {
   #container_dashboard {
     width: 100%;
-    margin-top: 4.5rem;
     z-index: 999;
+    margin-left: 0;
   }
 
   #header_dashboard {

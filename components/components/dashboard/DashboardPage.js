@@ -3,12 +3,12 @@ import DashboardCardOrders from "./DashboardCardOrders";
 import DashboardGraph from "./DashboardGraph";
 import React from "react";
 import moment from "moment";
-import {TrendingUpIcon} from "@heroicons/react/solid";
-import {TrendingDownIcon} from "@heroicons/react/solid";
-import {ChartBarIcon} from "@heroicons/react/solid";
-import {LibraryIcon} from "@heroicons/react/outline";
-import {TableIcon} from "@heroicons/react/solid";
-import {HeartIcon} from "@heroicons/react/solid";
+import { TrendingUpIcon } from "@heroicons/react/solid";
+import { TrendingDownIcon } from "@heroicons/react/solid";
+import { ChartBarIcon } from "@heroicons/react/solid";
+import { LibraryIcon } from "@heroicons/react/outline";
+import { TableIcon } from "@heroicons/react/solid";
+import { HeartIcon } from "@heroicons/react/solid";
 
 function percIncrease(a, b) {
   let percent;
@@ -24,7 +24,7 @@ function percIncrease(a, b) {
   return Math.floor(percent);
 }
 
-function DashboardPage({orders}) {
+function DashboardPage({ orders }) {
   const thisMonthStart = moment().startOf("month");
   const lastMonthStart = moment().subtract(1, "months").startOf("month");
 
@@ -64,10 +64,10 @@ function DashboardPage({orders}) {
   });
 
   const tablesThisMonth = ordersThisMonth.map((order) => {
-    return {id: order.id, table: order.data().restaurantTableNr};
+    return { id: order.id, table: order.data().restaurantTableNr };
   });
   const tablesLastMonth = ordersLastMonth.map((order) => {
-    return {id: order.id, table: order.data().restaurantTableNr};
+    return { id: order.id, table: order.data().restaurantTableNr };
   });
 
   let itemsInOrdersThisMonth = [];
@@ -75,14 +75,14 @@ function DashboardPage({orders}) {
   ordersThisMonth.forEach((order) =>
     itemsInOrdersThisMonth.push(
       order.data().items.map((item) => {
-        return {id: item.id, name: item.title};
+        return { id: item.id, name: item.title };
       })
     )
   );
   ordersLastMonth.forEach((order) =>
     itemsInOrdersLastMonth.push(
       order.data().items.map((item) => {
-        return {id: item.id, name: item.title};
+        return { id: item.id, name: item.title };
       })
     )
   );
@@ -306,7 +306,7 @@ function DashboardPage({orders}) {
 
   return (
     <div id="container">
-      <div className="flex flex-col md:grid md:grid-cols-2 mx-2 md:gap-2 xl:mt-4 2xl:grid-cols-4">
+      <div className="flex flex-col md:grid md:grid-cols-2 mx-2 md:gap-2 xl:pt-4 2xl:grid-cols-4">
         {data.map((item, index) => (
           <DashboardCard
             key={index}
