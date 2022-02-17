@@ -6,7 +6,12 @@ function LayoutDashboard(props) {
     <div>
       <DashboardTop restaurantData={props.restaurantData} />
 
-      <main id="container_dashboard">{props.children}</main>
+      <main
+        id="container_dashboard"
+        className="bg-gray-50 w-full h-full 2xl:h-screen"
+      >
+        {props.children}
+      </main>
     </div>
   );
 }

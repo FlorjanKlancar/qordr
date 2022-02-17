@@ -124,9 +124,9 @@ const DashboardGraph = ({year, month, day}) => {
   });
 
   const activeButton =
-    "w-full bg-gray-200 hover:bg-gray-200 text-blue-700 font-semibold py-2 px-4 rounded-xl";
+    "w-full bg-gray-200 hover:bg-gray-200 text-blue-700 font-semibold py-2 px-4 rounded-xl border-2 border-blue-200 border-opacity-50";
   const button =
-    "w-full bg-white hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 ";
+    "w-full  hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-xl border-2 border-gray-200 border-opacity-50 hover:border-blue-200";
 
   useEffect(() => {
     changeState(buttonState);

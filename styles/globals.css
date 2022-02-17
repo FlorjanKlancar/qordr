@@ -81,9 +81,7 @@ div[id$="_header"] {
 }
 
 #container_dashboard {
-  width: calc(100% - 17rem);
-  background-color: rgb(244 244 245);
-  height: 93vh;
+  width: calc(100% - 260px);
   margin-left: 260px;
 }
 
