@@ -1,12 +1,13 @@
-import React, {useState} from "react";
-import {useTranslation} from "react-i18next";
-import {CreditCardIcon} from "@heroicons/react/solid";
-import {CheckIcon} from "@heroicons/react/solid";
-import {CashIcon} from "@heroicons/react/solid";
-import {ThumbUpIcon} from "@heroicons/react/solid";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { CreditCardIcon } from "@heroicons/react/solid";
+import { CheckIcon } from "@heroicons/react/solid";
+import { CashIcon } from "@heroicons/react/solid";
+import { ThumbUpIcon } from "@heroicons/react/solid";
+import StripeCheckoutForm from "./StripeCheckoutForm";
 
 function PaymentDetails(props) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   function paymentSelector(arg) {
     if (arg === props.paymentOption) props.setPaymentOption("");
@@ -19,9 +20,9 @@ function PaymentDetails(props) {
   return (
     <div className="flex flex-col">
       <div className="font-bold text-xl">{t("payment_header")}</div>
-      <div className="mt-4 space-y-2">
+      <div className="mt-4 flex flex-row space-x-2 align-middle">
         <div
-          className={`flex justify-between border-2 rounded-lg p-3 ${
+          className={`flex w-1/2 justify-evenly border-2 rounded-lg p-3 ${
             props.paymentOption === "card"
               ? selectedPaymentStyle
               : notSelectedPaymentStyle
@@ -34,8 +35,9 @@ function PaymentDetails(props) {
             <CheckIcon className="w-6 h-6 mr-2 " />
           )}
         </div>
+
         <div
-          className={`flex justify-between border-2 rounded-lg p-3 ${
+          className={`flex w-1/2 justify-evenly border-2 rounded-lg p-3 ${
             props.paymentOption === "cash"
               ? selectedPaymentStyle
               : notSelectedPaymentStyle
@@ -49,6 +51,12 @@ function PaymentDetails(props) {
           )}
         </div>
       </div>
+
+      {props.paymentOption === "card" && (
+        <div>
+          <StripeCheckoutForm />
+        </div>
+      )}
 
       <div className="pt-6 px-4 flex justify-between text-gray-500 ">
         <ThumbUpIcon className="w-6 h-6 mr-2" />
