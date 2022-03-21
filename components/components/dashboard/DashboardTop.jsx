@@ -1,8 +1,8 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { MenuIcon } from "@heroicons/react/outline";
-import React, { useState } from "react";
-import { useSession, signOut } from "next-auth/react";
+import {Fragment} from "react";
+import {Disclosure, Menu, Transition} from "@headlessui/react";
+import {MenuIcon} from "@heroicons/react/outline";
+import React, {useState} from "react";
+import {useSession, signOut} from "next-auth/react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -13,7 +13,7 @@ import Image from "next/image";
 import DashboardNavLinks from "./DashboardNavLinks";
 import Link from "next/link";
 
-export default function DashboardTop({ restaurantData }) {
+export default function DashboardTop({restaurantData}) {
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -21,7 +21,7 @@ export default function DashboardTop({ restaurantData }) {
     right: false,
   });
 
-  const { data: session } = useSession();
+  const {data: session} = useSession();
   console.log("session", session);
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -32,12 +32,12 @@ export default function DashboardTop({ restaurantData }) {
       return;
     }
 
-    setState({ ...state, [anchor]: open });
+    setState({...state, [anchor]: open});
   };
 
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{width: anchor === "top" || anchor === "bottom" ? "auto" : 250}}
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
@@ -56,7 +56,7 @@ export default function DashboardTop({ restaurantData }) {
   return (
     <>
       <Disclosure as="nav">
-        {({ open }) => (
+        {({open}) => (
           <>
             <div className="mx-auto px-4 sm:px-6 lg:px-16 border-b-2 border-opacity-75">
               <div className="flex items-center justify-between h-16">
@@ -94,9 +94,9 @@ export default function DashboardTop({ restaurantData }) {
                 )}
 
                 {session && (
-                  <div className="hidden sm:block">
+                  <div className="">
                     <div className="ml-4 flex items-center md:ml-6 tracking-wide">
-                      <div>
+                      <div className="hidden sm:block">
                         Welcome,{" "}
                         <span className="underline underline-offset-2  decoration-defaultDark">
                           {session?.user.name}

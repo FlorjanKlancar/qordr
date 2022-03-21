@@ -11,8 +11,8 @@ export default function DashboardCardOrders({orders}) {
 
       <div className="flex flex-col w-full">
         <div>
-          <div className="align-middle inline-block w-full ">
-            <div className="overflow-y-auto p-3" id="dashboard_scroll">
+          <div className="align-middle inline-block w-full">
+            <div className="overflow-y-auto" id="dashboard_scroll">
               <table className="w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50 sticky top-0 z-50">
                   <tr>
