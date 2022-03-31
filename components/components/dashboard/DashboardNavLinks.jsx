@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import DonutLargeIcon from "@material-ui/icons/DonutLarge";
 import EditIcon from "@material-ui/icons/Edit";
 import ListIcon from "@material-ui/icons/List";
-import PersonIcon from "@material-ui/icons/Person";
 import HistoryIcon from "@material-ui/icons/History";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { XIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
+import DarkModeToggle from "react-dark-mode-toggle";
 
-function DashboardNavLinks({ toggleDrawer }) {
+function DashboardNavLinks({ toggleDrawer, isDarkMode, themeHandler }) {
   const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
 
   const router = useRouter();
@@ -27,7 +27,6 @@ function DashboardNavLinks({ toggleDrawer }) {
             />
           </div>
         </div>
-
         <Link
           href={{
             pathname: "/[restaurantName]/dashboard",
@@ -53,7 +52,6 @@ function DashboardNavLinks({ toggleDrawer }) {
             </div>
           </div>
         </Link>
-
         <Link
           href={{
             pathname: "/[restaurantName]/dashboard/orders",
@@ -79,7 +77,6 @@ function DashboardNavLinks({ toggleDrawer }) {
             </div>
           </div>
         </Link>
-
         <Link
           href={{
             pathname: "/[restaurantName]/dashboard/history",
@@ -105,7 +102,6 @@ function DashboardNavLinks({ toggleDrawer }) {
             </div>
           </div>
         </Link>
-
         <Link
           href={{
             pathname: "/[restaurantName]/dashboard/editProducts",
@@ -131,7 +127,6 @@ function DashboardNavLinks({ toggleDrawer }) {
             </div>
           </div>
         </Link>
-
         <Link
           href={{
             pathname: "/[restaurantName]/dashboard/overview",
