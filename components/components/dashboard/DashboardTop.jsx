@@ -188,7 +188,7 @@ export default function DashboardTop({ restaurantData }) {
                               <button>
                                 <DarkModeToggle
                                   onChange={themeHandler}
-                                  checked={isDarkMode}
+                                  checked={isDarkTheme}
                                   size={50}
                                 />
                               </button>
