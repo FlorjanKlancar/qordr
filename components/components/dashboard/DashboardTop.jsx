@@ -162,12 +162,12 @@ export default function DashboardTop({ restaurantData }) {
                           leaveFrom="transform opacity-100 scale-100"
                           leaveTo="transform opacity-0 scale-95"
                         >
-                          <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[108px]">
+                          <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none max-h-[108px] dark:bg-[#04111d] dark:text-white ">
                             <Menu.Item>
                               <Link href="#">
                                 <button
                                   className={
-                                    "block px-4 py-2 text-sm  w-full text-left hover:bg-gray-100"
+                                    "block px-4 py-2 text-sm  w-full text-left hover:bg-gray-100 dark:hover:bg-slate-900"
                                   }
                                 >
                                   Your profile
@@ -178,7 +178,7 @@ export default function DashboardTop({ restaurantData }) {
                               <button
                                 onClick={signOut}
                                 className={
-                                  "block px-4 py-2 text-sm  w-full text-left hover:bg-gray-100"
+                                  "block px-4 py-2 text-sm  w-full text-left hover:bg-gray-100 dark:hover:bg-slate-900"
                                 }
                               >
                                 Sign Out

@@ -76,7 +76,6 @@ export default function OrdersTable({ orders }) {
 
   const submitHandler = async (id) => {
     try {
-      console.log("id", id);
       const ordersRef = doc(db, "orders", id);
 
       await updateDoc(ordersRef, {
@@ -91,7 +90,10 @@ export default function OrdersTable({ orders }) {
 
   return (
     <div>
-      <div id="dashboard_title" className="text-2xl	p-4 dark:text-white">
+      <div
+        id="dashboard_title"
+        className="text-2xl	p-4 dark:text-white dark:bg-darkThemeBackground"
+      >
         Current orders:
       </div>
       <div className="pl-4 pr-4 pb-4 ">

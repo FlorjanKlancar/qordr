@@ -8,7 +8,6 @@ import HistoryIcon from "@material-ui/icons/History";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { XIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
-import DarkModeToggle from "react-dark-mode-toggle";
 
 function DashboardNavLinks({ toggleDrawer, isDarkMode, themeHandler }) {
   const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
