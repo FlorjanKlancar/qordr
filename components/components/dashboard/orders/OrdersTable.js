@@ -89,11 +89,8 @@ export default function OrdersTable({ orders }) {
   };
 
   return (
-    <div>
-      <div
-        id="dashboard_title"
-        className="text-2xl	p-4 dark:text-white dark:bg-darkThemeBackground"
-      >
+    <div className="dark:bg-darkThemeBackground   overflow-y-auto">
+      <div id="dashboard_title" className="text-2xl	p-4 dark:text-white ">
         Current orders:
       </div>
       <div className="pl-4 pr-4 pb-4 ">

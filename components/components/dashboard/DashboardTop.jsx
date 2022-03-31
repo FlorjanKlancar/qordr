@@ -31,7 +31,7 @@ export default function DashboardTop({ restaurantData }) {
   const [state, setState] = useState({
     top: false,
   });
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(!isDarkTheme);
 
   const { data: session } = useSession();
 
@@ -124,7 +124,7 @@ export default function DashboardTop({ restaurantData }) {
                   <div className="mt-10 hidden sm:block">
                     <DarkModeToggle
                       onChange={themeHandler}
-                      checked={isDarkMode}
+                      checked={isDarkTheme}
                       size={60}
                     />
                   </div>

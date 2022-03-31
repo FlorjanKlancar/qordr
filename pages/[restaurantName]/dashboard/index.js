@@ -21,7 +21,10 @@ import { themeActions } from "../../../store/theme-slice";
 
 export default function Dashboard({ restaurant, items }) {
   const dispatch = useDispatch();
-  dispatch(themeActions.changeTheme(true));
+
+  useEffect(() => {
+    dispatch(themeActions.changeTheme(true));
+  }, []);
 
   const [orders, setOrders] = useState([]);
   const { data: session } = useSession();
