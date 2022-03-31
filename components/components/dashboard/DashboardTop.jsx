@@ -1,28 +1,39 @@
-import {Fragment} from "react";
-import {Disclosure, Menu, Transition} from "@headlessui/react";
-import {MenuIcon} from "@heroicons/react/outline";
-import React, {useState} from "react";
-import {useSession, signOut} from "next-auth/react";
+import { Fragment } from "react";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { MenuIcon } from "@heroicons/react/outline";
+import React, { useState } from "react";
+import { useSession, signOut } from "next-auth/react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import qOrder from "../../../public/Q-Order.png";
+import qOrderWhite from "../../../public/Q-Order-White.png";
 import Image from "next/image";
 import DashboardNavLinks from "./DashboardNavLinks";
 import Link from "next/link";
+import DarkModeToggle from "react-dark-mode-toggle";
+import { useDispatch, useSelector } from "react-redux";
+import { themeActions } from "../../../store/theme-slice";
 
-export default function DashboardTop({restaurantData}) {
+export default function DashboardTop({ restaurantData }) {
+  const dispatch = useDispatch();
+
+  const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
+
+  function themeHandler() {
+    console.log("!profile.isDarkTheme", !isDarkTheme);
+    setIsDarkMode(!isDarkTheme);
+    dispatch(themeActions.changeTheme(!isDarkTheme));
+  }
+
   const [state, setState] = useState({
     top: false,
-    left: false,
-    bottom: false,
-    right: false,
   });
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const {data: session} = useSession();
-  console.log("session", session);
+  const { data: session } = useSession();
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -32,73 +43,97 @@ export default function DashboardTop({restaurantData}) {
       return;
     }
 
-    setState({...state, [anchor]: open});
+    setState({ ...state, [anchor]: open });
   };
 
   const list = (anchor) => (
     <Box
-      sx={{width: anchor === "top" || anchor === "bottom" ? "auto" : 250}}
+      sx={{
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 250,
+
+        backgroundColor: isDarkTheme ? "rgb(4, 17, 29)" : "white",
+        height: "100vh",
+      }}
       role="presentation"
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        <div className="xl:invisible">
+        <div className="xl:invisible ">
           <DashboardNavLinks toggleDrawer={toggleDrawer(anchor, false)} />
         </div>
       </List>
       <Divider />
-      <div className="ml-8">
-        <Image src={qOrder} alt="qOrder" width={150} height={56} />
+      <div className="ml-8 mt-4">
+        {isDarkTheme ? (
+          <Image src={qOrderWhite} alt="qOrder" width={140} height={30} />
+        ) : (
+          <Image src={qOrder} alt="qOrder" width={150} height={56} />
+        )}
       </div>
     </Box>
   );
 
   return (
-    <>
+    <header className="sticky top-0 z-[999] bg-white dark:bg-[#04111d]">
       <Disclosure as="nav">
-        {({open}) => (
-          <>
-            <div className="mx-auto px-4 sm:px-6 lg:px-16 border-b-2 border-opacity-75">
-              <div className="flex items-center justify-between h-16">
-                <div className="xl:hidden ">
-                  <Button onClick={toggleDrawer("left", true)}>
-                    <MenuIcon className="h-7 w-7" />
-                  </Button>
-                  <Drawer
-                    left={"left"}
-                    open={state["left"]}
-                    onClose={toggleDrawer("left", false)}
-                  >
-                    {list("left")}
-                  </Drawer>
-                </div>
-
-                <div className="flex items-center hidden lg:block">
-                  <div className="flex-shrink-0">
-                    <div className="mt-2 ">
+        <>
+          <div className="mx-auto px-4 sm:px-6 lg:px-16 border-b-2 border-opacity-75 dark:bg-[#04111d] dark:border-gray-800 relative ">
+            <div className="flex items-center justify-between h-16">
+              <div className="xl:hidden ">
+                <Button onClick={toggleDrawer("left", true)}>
+                  <MenuIcon className="h-7 w-7" />
+                </Button>
+                <Drawer
+                  left={"left"}
+                  open={state["left"]}
+                  onClose={toggleDrawer("left", false)}
+                >
+                  {list("left")}
+                </Drawer>
+              </div>
+              <div className="items-center hidden lg:block">
+                <div className="flex-shrink-0">
+                  <div className="mt-2 pr-8">
+                    {isDarkTheme ? (
+                      <Image
+                        src={qOrderWhite}
+                        alt="qOrder"
+                        width={140}
+                        height={30}
+                      />
+                    ) : (
                       <Image
                         src={qOrder}
                         alt="qOrder"
-                        width={150}
-                        height={56}
+                        width={140}
+                        height={52}
                       />
-                    </div>
+                    )}
                   </div>
                 </div>
-
-                {session && (
-                  <div className="flex xl:w-2/4 2xl:w-3/4">
+              </div>
+              {session && (
+                <>
+                  <div className="flex w-full sm:w-1/3 lg:w-4/6">
                     <p className="text-gray-400 ">Restaurant: </p>
-                    <p className="font-semibold">{restaurantData}</p>
+                    <p className="font-semibold dark:text-white">
+                      {restaurantData}
+                    </p>
                   </div>
-                )}
 
-                {session && (
+                  <div className="mt-10 hidden sm:block">
+                    <DarkModeToggle
+                      onChange={themeHandler}
+                      checked={isDarkMode}
+                      size={60}
+                    />
+                  </div>
+
                   <div className="">
                     <div className="ml-4 flex items-center md:ml-6 tracking-wide">
-                      <div className="hidden sm:block">
+                      <div className="hidden sm:block dark:text-gray-400">
                         Welcome,{" "}
-                        <span className="underline underline-offset-2  decoration-defaultDark">
+                        <span className="underline underline-offset-2  decoration-defaultDark dark:decoration-blue-900">
                           {session?.user.name}
                         </span>
                         !
@@ -154,15 +189,15 @@ export default function DashboardTop({restaurantData}) {
                       </Menu>
                     </div>
                   </div>
-                )}
-              </div>
+                </>
+              )}
             </div>
-          </>
-        )}
+          </div>
+        </>
       </Disclosure>
-      <div className="w-[260px] h-screen fixed bg-white invisible xl:visible border-r-2">
+      <div className="w-[260px] h-screen fixed bg-white invisible xl:visible border-r-2 dark:bg-[#04111d] dark:border-gray-800">
         <DashboardNavLinks />
       </div>
-    </>
+    </header>
   );
 }

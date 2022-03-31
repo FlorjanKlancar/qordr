@@ -8,8 +8,11 @@ import PersonIcon from "@material-ui/icons/Person";
 import HistoryIcon from "@material-ui/icons/History";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { XIcon } from "@heroicons/react/solid";
+import { useSelector } from "react-redux";
 
 function DashboardNavLinks({ toggleDrawer }) {
+  const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
+
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
   return (
@@ -34,11 +37,17 @@ function DashboardNavLinks({ toggleDrawer }) {
           <div
             className={
               router.pathname == "/[restaurantName]/dashboard"
-                ? "text-blue-600 bg-gray-50"
+                ? `text-blue-600 ${isDarkTheme ? "bg-gray-800" : "bg-gray-50"}`
                 : "text-gray-700 "
             }
           >
-            <div className="flex p-3  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer">
+            <div
+              className={`flex p-3  space-x-4 0  hover:text-blue-600  cursor-pointer  ${
+                isDarkTheme
+                  ? "hover:bg-gray-900  border-gray-800"
+                  : " hover:bg-gray-50 "
+              }`}
+            >
               <DonutLargeIcon className=" text-gray-300" />
               <p className="">Dashboard</p>
             </div>
@@ -54,11 +63,17 @@ function DashboardNavLinks({ toggleDrawer }) {
           <div
             className={
               router.pathname == "/[restaurantName]/dashboard/orders"
-                ? "text-blue-600 bg-gray-50"
+                ? `text-blue-600 ${isDarkTheme ? "bg-gray-800" : "bg-gray-50"}`
                 : "text-gray-700 "
             }
           >
-            <div className="flex p-3  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
+            <div
+              className={`flex p-3  space-x-4 0  hover:text-blue-600  cursor-pointer  ${
+                isDarkTheme
+                  ? "hover:bg-gray-900  border-gray-800"
+                  : " hover:bg-gray-50 "
+              }`}
+            >
               <ListIcon className="text-gray-300" />
               <p className="">Orders</p>
             </div>
@@ -74,11 +89,17 @@ function DashboardNavLinks({ toggleDrawer }) {
           <div
             className={
               router.pathname == "/[restaurantName]/dashboard/history"
-                ? "text-blue-600 bg-gray-50"
+                ? `text-blue-600 ${isDarkTheme ? "bg-gray-800" : "bg-gray-50"}`
                 : "text-gray-700 "
             }
           >
-            <div className="flex p-3  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
+            <div
+              className={`flex p-3  space-x-4 0  hover:text-blue-600  cursor-pointer  ${
+                isDarkTheme
+                  ? "hover:bg-gray-900  border-gray-800"
+                  : " hover:bg-gray-50 "
+              }`}
+            >
               <HistoryIcon className="text-gray-300" />
               <p className="">Orders history</p>
             </div>
@@ -94,11 +115,17 @@ function DashboardNavLinks({ toggleDrawer }) {
           <div
             className={
               router.pathname == "/[restaurantName]/dashboard/editProducts"
-                ? "text-blue-600 bg-gray-50"
+                ? `text-blue-600 ${isDarkTheme ? "bg-gray-800" : "bg-gray-50"}`
                 : "text-gray-700 "
             }
           >
-            <div className="flex p-3  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
+            <div
+              className={`flex p-3  space-x-4 0  hover:text-blue-600  cursor-pointer  ${
+                isDarkTheme
+                  ? "hover:bg-gray-900  border-gray-800"
+                  : " hover:bg-gray-50 "
+              }`}
+            >
               <EditIcon className="text-gray-300" />
               <p className=" ">Items</p>
             </div>
@@ -114,23 +141,22 @@ function DashboardNavLinks({ toggleDrawer }) {
           <div
             className={
               router.pathname == "/[restaurantName]/dashboard/overview"
-                ? "text-blue-600 bg-gray-50"
+                ? `text-blue-600 ${isDarkTheme ? "bg-gray-800" : "bg-gray-50"}`
                 : "text-gray-700 "
             }
           >
-            <div className="flex p-3  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
+            <div
+              className={`flex p-3  space-x-4 0  hover:text-blue-600  cursor-pointer  ${
+                isDarkTheme
+                  ? "hover:bg-gray-900  border-gray-800"
+                  : " hover:bg-gray-50 "
+              }`}
+            >
               <QueryStatsIcon className="text-gray-300" />
               <p className="">Overview</p>
             </div>
           </div>
         </Link>
-
-        <div className="">
-          <div className="flex p-3  space-x-4 0 hover:bg-gray-50 hover:text-blue-600  cursor-pointer  ">
-            <PersonIcon className="text-gray-300" />
-            <p className="text-gray-600  ">Account</p>
-          </div>
-        </div>
       </div>
     </div>
   );

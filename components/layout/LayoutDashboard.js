@@ -8,7 +8,7 @@ function LayoutDashboard(props) {
 
       <main
         id="container_dashboard"
-        className="bg-gray-50 w-full h-full 2xl:h-screen"
+        className="bg-gray-100 w-full dark:bg-[#202225] "
       >
         {props.children}
       </main>

@@ -202,7 +202,8 @@ function DashboardPage({ orders }) {
           </div>
         </div>
       ),
-      color: "from-indigo-500 via-indigo-600 to-indigo-700",
+      color:
+        "from-indigo-500 via-indigo-600 to-indigo-700 dark:from-indigo-900 dark:via-indigo-800 dark:to-indigo-800 dark:border-blue-900",
     },
 
     {
@@ -231,13 +232,14 @@ function DashboardPage({ orders }) {
         </div>
       ),
       currency: "yes",
-      color: "from-blue-500 via-blue-600 to-blue-700",
+      color:
+        "from-blue-500 via-blue-600 to-blue-700 dark:from-blue-900 dark:via-blue-800 dark:to-blue-800 dark:border-blue-900",
     },
 
     {
       title: "Most popular table",
       number: (
-        <div className="flex flex-row justify-between px-1 text-sm md:text-lg xl:text-xl">
+        <div className="flex flex-row justify-between px-1 text-sm md:text-lg xl:text-xl ">
           <div>{`Table: ${
             bestTableThisMonthCard.table
               ? bestTableThisMonthCard.table
@@ -252,7 +254,7 @@ function DashboardPage({ orders }) {
       ),
       icon: <TableIcon className="text-white p-1" />,
       bottomText: (
-        <div className="flex flex-row justify-between px-1 text-gray-300 text-sm md:text-base">
+        <div className="flex flex-row justify-between px-1 text-gray-300 text-sm md:text-base ">
           <div>{`Last month Table: ${
             bestTableLastMonthCard.table
               ? bestTableLastMonthCard.table
@@ -266,7 +268,8 @@ function DashboardPage({ orders }) {
         </div>
       ),
       currency: "no",
-      color: "from-cyan-500 via-cyan-600 to-cyan-700",
+      color:
+        "from-cyan-500 via-cyan-600 to-cyan-700 dark:from-cyan-900 dark:via-cyan-800 dark:to-cyan-800 dark:border-cyan-900",
     },
 
     {
@@ -300,13 +303,14 @@ function DashboardPage({ orders }) {
           }`}</div>
         </div>
       ),
-      color: "from-amber-500 via-amber-600 to-amber-700",
+      color:
+        "from-amber-500 via-amber-600 to-amber-700 dark:from-orange-900 dark:via-amber-800 dark:to-amber-800 dark:border-orange-900",
     },
   ];
 
   return (
-    <div id="container">
-      <div className="flex flex-col md:grid md:grid-cols-2 mx-2 md:gap-2 xl:pt-4 2xl:grid-cols-4">
+    <div id="container" className="dark:bg-[#202225]">
+      <div className="flex flex-col md:grid md:grid-cols-2 mx-4 md:gap-4 xl:pt-4 2xl:grid-cols-4 h-full ">
         {data.map((item, index) => (
           <DashboardCard
             key={index}
@@ -320,8 +324,8 @@ function DashboardPage({ orders }) {
         ))}
       </div>
 
-      <div className="flex flex-col xl:flex-row w-full p-4 xl:space-x-4">
-        <div className="shadow-xl border-2 border-gray-200 rounded border-opacity-20 w-full xl:w-1/2 h-[606px]">
+      <div className="flex flex-col xl:flex-row w-full p-4 xl:space-x-4 space-y-4 xl:space-y-0">
+        <div className="shadow-xl border-2 border-gray-200 rounded border-opacity-20 w-full xl:w-1/2 h-[606px] dark:border-gray-700">
           {ordersFull && (
             <DashboardGraph
               year={groupBy(ordersFull, "year")}
@@ -331,7 +335,7 @@ function DashboardPage({ orders }) {
           )}
         </div>
 
-        <div className="shadow-xl border-2 border-gray-200 rounded border-opacity-20   xl:w-1/2 h-[606px]">
+        <div className="shadow-xl border-2 border-gray-200 rounded border-opacity-20   xl:w-1/2 h-[606px] dark:border-gray-700">
           <DashboardCardOrders orders={ordersFull} />
         </div>
       </div>

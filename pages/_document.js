@@ -1,4 +1,5 @@
-import Document, {Html, Head, Main, NextScript} from "next/document";
+import Document, { Html, Head, Main, NextScript } from "next/document";
+import { useDispatch, useSelector } from "react-redux";
 
 export default class MyDocument extends Document {
   render() {

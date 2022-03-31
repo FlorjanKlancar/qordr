@@ -1,103 +1,69 @@
-/* import {Fragment, useState, useEffect} from "react";
+import { Fragment, useState, useEffect } from "react";
 import Head from "next/head";
 import React from "react";
 import LayoutDashboard from "../../../../components/layout/LayoutDashboard";
-import Pusher from "pusher-js";
-import HistoryPage from "../../../../components/components/dashboard/history/HistoryPage";
-import useSWR, {mutate} from "swr";
-import {withPageAuthRequired} from "@auth0/nextjs-auth0";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../../../../firebase";
+import History from "../../../../components/components/dashboard/history/History";
 
-const fetcher = async () => {
-  const response1 = await fetch("https://qorder.link/api/showAllOrders");
-  const data1 = await response1.json();
+export default function Dashboard({ restaurant }) {
+  const [orders, setOrders] = useState();
 
-  const props = {
-    showAllOrders: data1,
-  };
-  return props;
-};
+  useEffect(
+    () =>
+      onSnapshot(
+        query(collection(db, "orders"), orderBy("timestamp", "desc")),
+        (snapshot) => setOrders(snapshot.docs)
+      ),
+    [db]
+  );
 
-export default withPageAuthRequired(function Dashboard(props) {
-  const {data, error} = useSWR("data", fetcher);
-
-  useEffect(() => {
-    //Pusher.logToConsole = true;
-    var pusher = new Pusher("e1ac6f9cc2607b50daf4", {
-      cluster: "eu",
-    });
-    const channel = pusher.subscribe("new-order");
-    channel.bind("App\\Events\\NewOrder", function (data) {
-      console.log(data);
-      mutate("data");
-    });
-  }, []);
-
-  function fetchNewData() {
-    mutate("data");
-  }
-
-  if (error) return "Error";
-  if (!data) return "Loading";
-
+  console.log("orders", orders);
   return (
     <Fragment>
       <Head>
-        <title>Orders history - {props.restaurantData[0].restaurantName}</title>
+        <title>Orders history - {restaurant[0].name}</title>
         <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap"
           rel="stylesheet"
         />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        />
       </Head>
 
-      <LayoutDashboard restaurantData={props.restaurantData[0]}>
-        <HistoryPage orders={data.showAllOrders} fetchNewData={fetchNewData} />
+      <LayoutDashboard restaurantData={restaurant[0].name}>
+        <History orders={orders} />
       </LayoutDashboard>
     </Fragment>
   );
-});
+}
 
-export async function getStaticPaths() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/restaurantInfo`);
-  const data = await response.json();
+export async function getServerSideProps(context) {
+  const restaurantName = context.query.restaurantName;
 
-  const tables = [];
-  for (var i = 1; i <= data[0].restaurantTables; i++) {
-    tables.push({
-      restaurant: data[0].queryName,
-      tableNr: i.toString(),
-    });
+  const restaurantQ = query(
+    collection(db, "restaurant"),
+    where("queryName", "==", restaurantName)
+  );
+
+  const queryRestaurant = await getDocs(restaurantQ);
+
+  let restaurant = [];
+  queryRestaurant.docs.forEach((item) => {
+    restaurant.push(item.data());
+  });
+
+  if (restaurant.length === 0) {
+    return { notFound: true };
   }
 
   return {
-    paths: tables.map((tables) => {
-      return {
-        params: {
-          restaurantName: tables.restaurant,
-          tableNr: tables.tableNr,
-        },
-      };
-    }),
-    fallback: false,
+    props: { restaurant: restaurant },
   };
-}
-
-export async function getStaticProps() {
-  const response = await fetch(`${process.env.BACKEND_URL}/api/restaurantInfo`);
-  const data = await response.json();
-  return {
-    props: {
-      restaurantData: data,
-    },
-    revalidate: 1,
-  };
-}
- */
-
-export default function History() {
-  return <div>History</div>;
 }

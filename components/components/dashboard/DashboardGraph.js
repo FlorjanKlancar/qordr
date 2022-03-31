@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,7 +11,7 @@ import {
   LineElement,
 } from "chart.js";
 import moment from "moment";
-import {Bar} from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -27,7 +27,7 @@ ChartJS.register(
 const defaultGraph = {
   label: "Orders",
   fill: false,
-  backgroundColor: "rgba(23,174,182)",
+  backgroundColor: "#4358FF",
   borderColor: "rgba(23,174,182)",
   borderCapStyle: "butt",
   borderDash: [],
@@ -45,11 +45,11 @@ const defaultGraph = {
   data: [],
 };
 
-const DashboardGraph = ({year, month, day}) => {
+const DashboardGraph = ({ year, month, day }) => {
   const [buttonState, setButtonState] = useState("daily");
   const [graphData, setGraphData] = useState({
     labels: dailyLabel,
-    datasets: [{...defaultGraph, data: dailyData}],
+    datasets: [{ ...defaultGraph, data: dailyData }],
   });
 
   function changeState(value) {
@@ -58,21 +58,21 @@ const DashboardGraph = ({year, month, day}) => {
     if (value === "daily") {
       setGraphData({
         labels: dailyLabel,
-        datasets: [{...defaultGraph, data: dailyData}],
+        datasets: [{ ...defaultGraph, data: dailyData }],
       });
     }
 
     if (value === "monthly") {
       setGraphData({
         labels: monthlyLabel,
-        datasets: [{...defaultGraph, data: monthlyData}],
+        datasets: [{ ...defaultGraph, data: monthlyData }],
       });
     }
 
     if (value === "yearly") {
       setGraphData({
         labels: yearlyLabel,
-        datasets: [{...defaultGraph, data: yearlyData}],
+        datasets: [{ ...defaultGraph, data: yearlyData }],
       });
     }
   }
@@ -98,7 +98,7 @@ const DashboardGraph = ({year, month, day}) => {
 
   const yearGraph = Object.keys(year).map(function (key, index) {
     {
-      return {length: year[key].length, date: year[key][0].year};
+      return { length: year[key].length, date: year[key][0].year };
     }
   });
 
@@ -124,9 +124,9 @@ const DashboardGraph = ({year, month, day}) => {
   });
 
   const activeButton =
-    "w-full bg-gray-200 hover:bg-gray-200 text-blue-700 font-semibold py-2 px-4 rounded-xl border-2 border-blue-200 border-opacity-50";
+    "w-full bg-gray-200 hover:bg-gray-200 text-blue-700 font-semibold py-2 px-4 rounded-xl border-2 border-blue-200 border-opacity-50 dark:bg-gray-900 dark:border-gray-700 dark:text-white";
   const button =
-    "w-full  hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-xl border-2 border-gray-200 border-opacity-50 hover:border-blue-200";
+    "w-full  hover:bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-xl border-2 border-gray-200 border-opacity-50 hover:border-blue-200  dark:border-gray-700 dark:text-white hover:dark:bg-gray-900";
 
   useEffect(() => {
     changeState(buttonState);
@@ -134,12 +134,14 @@ const DashboardGraph = ({year, month, day}) => {
 
   console.log("graphData", graphData);
   return (
-    <div className="h-full">
-      <div className="border-b p-3 border-gray-100">
-        <p className="font-semibold text-lg">Restaurant orders graph</p>
+    <div className="h-full dark:bg-gray-800">
+      <div className="border-b p-3 border-gray-100 dark:border-gray-600">
+        <p className="font-semibold text-lg dark:text-gray-200">
+          Restaurant orders graph
+        </p>
       </div>
       <div className="h-5/6">
-        {<Bar data={graphData} options={{maintainAspectRatio: false}} />}
+        {<Bar data={graphData} options={{ maintainAspectRatio: false }} />}
       </div>
       <div className="flex space-x-4 items-center justify-items-center	text-center mx-2">
         <div className="flex-1">

@@ -6,6 +6,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { SessionProvider } from "next-auth/react";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import { Provider } from "react-redux";
+import store from "../store";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -36,20 +39,32 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     appearance,
   };
 
+  const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
+
   return (
-    <Suspense fallback="">
-      <SessionProvider session={session}>
-        <CartProvider>
-          {clientSecret && (
-            <Elements options={options} stripe={stripePromise}>
-              <div id="overlays"></div>
-              <Component {...pageProps} />
-            </Elements>
-          )}
-        </CartProvider>
-      </SessionProvider>
-    </Suspense>
+    <div className={`h-full ${isDarkTheme ? " dark" : ""}`}>
+      <Suspense fallback="">
+        <SessionProvider session={session}>
+          <CartProvider>
+            {clientSecret && (
+              <Elements options={options} stripe={stripePromise}>
+                <div id="overlays"></div>
+                <Component {...pageProps} />
+              </Elements>
+            )}
+          </CartProvider>
+        </SessionProvider>
+      </Suspense>
+    </div>
   );
 }
 
-export default MyApp;
+function MyAppWithProvider({ Component, pageProps }) {
+  return (
+    <Provider store={store}>
+      <MyApp Component={Component} pageProps={pageProps} />
+    </Provider>
+  );
+}
+
+export default MyAppWithProvider;

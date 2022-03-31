@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import Head from "next/head";
 import OrderPage from "../../../../components/components/order/OrderPage";
 import { db } from "../../../../firebase/index";
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 function Order({ restaurant, items: restaurantItems }) {
   return (
@@ -17,48 +17,14 @@ function Order({ restaurant, items: restaurantItems }) {
 }
 export default Order;
 
-export async function getStaticPaths() {
-  const q = query(collection(db, "restaurant"));
-  const querySnapshot = await getDocs(q);
+export async function getServerSideProps(context) {
+  const restaurantName = context.query.restaurantName;
 
-  let restaurantName;
-  let tableNr;
-  querySnapshot.docs.forEach((item) => {
-    restaurantName = item.data().queryName;
-    tableNr = item.data().tableNr;
-  });
+  const restaurantQ = query(
+    collection(db, "restaurant"),
+    where("queryName", "==", restaurantName)
+  );
 
-  const tables = [];
-  for (var i = 1; i <= tableNr; i++) {
-    tables.push({
-      restaurantName: restaurantName.toLowerCase().toString(),
-      tableNr: i.toString(),
-    });
-  }
-
-  return {
-    paths: tables.map((tables) => {
-      return {
-        params: {
-          restaurantName: tables.restaurantName,
-          tableNr: tables.tableNr,
-        },
-      };
-    }),
-    fallback: false,
-  };
-}
-
-export async function getStaticProps() {
-  const itemsQ = query(collection(db, "items"));
-  const queryItems = await getDocs(itemsQ);
-
-  let items = [];
-  queryItems.docs.forEach((item) => {
-    items.push({ item: { ...item.data(), id: item.id } });
-  });
-
-  const restaurantQ = query(collection(db, "restaurant"));
   const queryRestaurant = await getDocs(restaurantQ);
 
   let restaurant = [];
@@ -66,7 +32,11 @@ export async function getStaticProps() {
     restaurant.push(item.data());
   });
 
+  if (restaurant.length === 0) {
+    return { notFound: true };
+  }
+
   return {
-    props: { items: items, restaurant: restaurant },
+    props: { restaurant: restaurant },
   };
 }

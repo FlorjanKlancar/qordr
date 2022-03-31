@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,7 +8,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import SingleRow from "./SingleRow";
-import {ToastContainer, toast} from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../../../firebase";
 
 const columns = [
   {
@@ -59,7 +61,7 @@ function alertMessageFail() {
   });
 }
 
-export default function OrdersTable(props) {
+export default function OrdersTable({ orders }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
 
@@ -72,22 +74,37 @@ export default function OrdersTable(props) {
     setPage(0);
   };
 
+  const submitHandler = async (id) => {
+    try {
+      console.log("id", id);
+      const ordersRef = doc(db, "orders", id);
+
+      await updateDoc(ordersRef, {
+        status: "completed",
+      });
+
+      alertMessageSuccess();
+    } catch (error) {
+      alertMessageFail();
+    }
+  };
+
   return (
-    <div className="pt-2">
-      <div id="dashboard_title" className="text-2xl	p-4">
+    <div>
+      <div id="dashboard_title" className="text-2xl	p-4 dark:text-white">
         Current orders:
       </div>
-      <div className="pl-4 pr-4 pb-4">
-        <Paper sx={{width: "100%", overflow: "hidden"}}>
-          <TableContainer sx={{maxHeight: 740}}>
-            <Table stickyHeader aria-label="sticky table">
+      <div className="pl-4 pr-4 pb-4 ">
+        <Paper sx={{ width: "100%", overflow: "hidden" }} id="miuiTable_paper">
+          <TableContainer sx={{ maxHeight: 740 }}>
+            <Table stickyHeader aria-label="sticky table" id="miuiTable">
               <TableHead>
                 <TableRow>
                   {columns.map((column) => (
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{minWidth: column.minWidth}}
+                      style={{ minWidth: column.minWidth }}
                     >
                       {column.label}
                     </TableCell>
@@ -95,23 +112,22 @@ export default function OrdersTable(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {props.uniqueOrders.map((order) => (
-                  <SingleRow
-                    key={order.idOrder}
-                    idOrder={order.idOrder}
-                    restaurantTableNr={order.restaurantTableNr}
-                    totalAmount={order.totalAmount}
-                    paymentType={order.paymentType}
-                    itemsOnOrder={props.orders}
-                    createdAt={order.created_at}
-                    customerTip={order.customerTip}
-                    customerComment={order.customerComment}
-                    fetchNewData={props.fetchNewData}
-                    alertMessageSuccess={alertMessageSuccess}
-                    alertMessageFail={alertMessageFail}
-                  />
-                ))}
-                {props.uniqueOrders.length === 0 && (
+                {orders.length ? (
+                  orders.map((order) => (
+                    <SingleRow
+                      key={order.id}
+                      id={order.id}
+                      restaurantTableNr={order.data().restaurantTableNr}
+                      totalAmount={order.data().totalAmount}
+                      paymentType={order.data().paymentType}
+                      customerComment={order.data().customerComment}
+                      customerTip={order.data().customerTip}
+                      itemsOnOrder={order.data().items}
+                      orderDate={order.data().timestamp}
+                      submitHandler={submitHandler}
+                    />
+                  ))
+                ) : (
                   <TableRow hover role="checkbox" tabIndex={-1}>
                     <TableCell colSpan="5">
                       <div className="lg:text-center">
@@ -126,11 +142,12 @@ export default function OrdersTable(props) {
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={props.orders.length}
+            count={orders.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
+            id="miuiTable_footer"
           />
         </Paper>
       </div>
