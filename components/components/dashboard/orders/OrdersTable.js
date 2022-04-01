@@ -76,13 +76,13 @@ export default function OrdersTable({ orders }) {
 
   const submitHandler = async (id) => {
     try {
+      alertMessageSuccess();
+
       const ordersRef = doc(db, "orders", id);
 
       await updateDoc(ordersRef, {
         status: "completed",
       });
-
-      alertMessageSuccess();
     } catch (error) {
       alertMessageFail();
     }

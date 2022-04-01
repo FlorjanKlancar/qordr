@@ -1,45 +1,62 @@
-import MUIDataTable from "mui-datatables";
+import React from "react";
+import ReactDataTable from "../ReactDataTable";
+import moment from "moment";
 
-const columns = [
-  "Order",
-  "Items on order",
-  "Total amount",
-  "Order status",
-  "Edit order",
-];
+function History({ orders }) {
+  const columns = [
+    {
+      name: "Date & Time",
+      selector: (row) => row.date,
+      sortable: true,
+    },
+    {
+      name: "Restaurant Table Number",
+      selector: (row) => row.restaurantTableNr,
+      sortable: true,
+    },
 
-const data = [
-  [
-    "Joe James",
-    <img
-      src="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
-      key="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
-      alt="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg"
-    />,
-    "Yonkers",
-    "NY",
-  ],
-  ["John Walsh", "Test Corp", "Hartford", "CT"],
-  ["Bob Herm", "Test Corp", "Tampa", "FL"],
-  ["James Houston", "Test Corp", "Dallas", "TX"],
-];
+    {
+      name: "Payment",
+      selector: (row) => row.payment,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+    },
+  ];
 
-const options = {
-  filterType: "checkbox",
-  download: "false",
-  print: "false",
-};
+  const mainData = orders?.map((order, i) => {
+    //console.log("order", order.data());
 
-export default function History() {
+    return {
+      id: i,
+      date: moment(order.data().timestamp.toDate()).format(
+        "MMMM Do YYYY, h:mm"
+      ),
+      payment: order.data().paymentType,
+      restaurantTableNr: order.data().restaurantTableNr,
+      status: order.data().status,
+      items: order.data().items.map((item, i) => {
+        return (
+          <div key={i}>
+            <img src={item.picture} />
+          </div>
+        );
+      }),
+    };
+  });
+
   return (
-    <div className="p-4 dark:bg-darkThemeBackground   overflow-y-auto">
-      <MUIDataTable
-        title={"All orders history"}
-        data={data}
+    <div>
+      <ReactDataTable
+        title={"History of orders"}
         columns={columns}
-        options={options}
-        id="miuiTableNew"
+        data={mainData}
       />
     </div>
   );
 }
+
+export default History;

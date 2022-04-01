@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import History from "../../../../components/components/dashboard/history/History";
+import Spinner from "../../../../components/components/spinner";
 
 export default function Dashboard({ restaurant }) {
   const [orders, setOrders] = useState();
@@ -38,7 +39,7 @@ export default function Dashboard({ restaurant }) {
       </Head>
 
       <LayoutDashboard restaurantData={restaurant[0].name}>
-        <History orders={orders} />
+        {orders ? <History orders={orders} /> : <Spinner />}
       </LayoutDashboard>
     </Fragment>
   );

@@ -106,14 +106,33 @@ div[id$="_header"] {
 }
 
 .dark #miuiTable_footer {
+  border-top: 1px solid;
+  border-color: white;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+#miuiTable_footer {
+  border-top: 0.1em solid;
+  --tw-text-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-text-opacity));
 }
 
 .dark #miui_drawer {
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity));
   height: 100vh;
+}
+
+#miuiTableNew2 .MuiPaper-rounded * {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+  color: white;
+}
+
+.rdt_Table {
+  max-height: 700px;
+  overflow-y: auto;
 }
 
 @media only screen and (max-width: 1280px) {

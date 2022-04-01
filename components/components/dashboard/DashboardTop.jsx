@@ -133,7 +133,7 @@ export default function DashboardTop({ restaurantData }) {
                     <div className="ml-4 flex items-center md:ml-6 tracking-wide">
                       <div className="hidden sm:block dark:text-gray-400">
                         Welcome,{" "}
-                        <span className="underline underline-offset-2  decoration-defaultDark dark:decoration-blue-900">
+                        <span className="underline underline-offset-2  decoration-defaultDark dark:decoration-default">
                           {session?.user.name}
                         </span>
                         !
@@ -185,13 +185,11 @@ export default function DashboardTop({ restaurantData }) {
                               </button>
                             </Menu.Item>
                             <Menu.Item className="sm:hidden ml-2">
-                              <button>
-                                <DarkModeToggle
-                                  onChange={themeHandler}
-                                  checked={isDarkTheme}
-                                  size={50}
-                                />
-                              </button>
+                              <DarkModeToggle
+                                onChange={themeHandler}
+                                checked={isDarkTheme}
+                                size={50}
+                              />
                             </Menu.Item>
                           </Menu.Items>
                         </Transition>

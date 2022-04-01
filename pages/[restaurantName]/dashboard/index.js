@@ -24,12 +24,16 @@ export default function Dashboard({ restaurant, items }) {
 
   useEffect(() => {
     dispatch(themeActions.changeTheme(true));
+
+    if (!session) {
+      router.push("/api/auth/signin");
+    }
   }, []);
 
   const [orders, setOrders] = useState([]);
   const { data: session } = useSession();
-
   const router = useRouter();
+  console.log("session", session);
 
   useEffect(
     () =>
@@ -52,7 +56,11 @@ export default function Dashboard({ restaurant, items }) {
       </Head>
 
       <LayoutDashboard restaurantData={restaurant[0].name}>
-        {orders.length ? <DashboardPage orders={orders} /> : <Spinner />}
+        {orders.length && session ? (
+          <DashboardPage orders={orders} />
+        ) : (
+          <Spinner />
+        )}
       </LayoutDashboard>
     </Fragment>
   );
