@@ -66,6 +66,7 @@ function ProductsPage({ items }) {
     })
     .map((item) => {
       return {
+        id: item.id,
         picture: (
           <div className="p-2">
             <div className="p-0.5  bg-gradient-to-br from-sky-200 via-gray-200 to-red-300 dark:from-sky-600 dark:via-gray-200 dark:to-red-700 rounded-lg">
@@ -125,7 +126,7 @@ function ProductsPage({ items }) {
 
   const subHeaderComponent = useMemo((search) => {
     return (
-      <form className="flex w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 justify-start  opacity-75  rounded-full border-2 border-indigo-400 mb-5 mr-5 py-2">
+      <form className="flex w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 justify-start  opacity-75  rounded-full border-2 border-indigo-400 mb-5 mr-5 py-2 px-4">
         <input
           type="text"
           className="flex-grow bg-transparent outline-none placeholder-gray-500 text-black dark:text-white pr-5"
@@ -148,6 +149,7 @@ function ProductsPage({ items }) {
         columns={columns}
         data={mainData}
         expandableRowsBoolean={false}
+        trClick={editElement}
       />
     </div>
   );

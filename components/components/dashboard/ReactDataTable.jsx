@@ -31,6 +31,7 @@ export default function ReactDataTable({
   columns,
   expandableRowsBoolean,
   subHeaderComponent,
+  trClick,
 }) {
   const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
 
@@ -97,6 +98,9 @@ export default function ReactDataTable({
         subHeaderComponent={subHeaderComponent}
         theme={isDarkTheme ? "solarized" : ""}
         id="react_data_table"
+        onRowClicked={(e) => {
+          trClick(e.id);
+        }}
       />
     </div>
   );
