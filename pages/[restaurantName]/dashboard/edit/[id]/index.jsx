@@ -1,39 +1,27 @@
-import { Fragment, useEffect, useState } from "react";
-import Head from "next/head";
-import LayoutDashboard from "../../../../components/layout/LayoutDashboard";
-import Spinner from "../../../../components/components/spinner";
+import React from "react";
+import { Fragment, useState, useEffect } from "react";
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
   onSnapshot,
   orderBy,
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../../../firebase";
-import OrdersTable from "../../../../components/components/dashboard/orders/OrdersTable";
+import { db } from "../../../../../firebase";
+import Head from "next/head";
+import LayoutDashboard from "../../../../../components/layout/LayoutDashboard";
+import EditProductsPage from "../../../../../components/components/dashboard/editProducts/EditProductsPage";
 
-export default function Orders({ restaurant }) {
-  const [orders, setOrders] = useState();
-
-  useEffect(
-    () =>
-      onSnapshot(
-        query(
-          collection(db, "orders"),
-          where("status", "==", "pending"),
-          orderBy("timestamp", "desc")
-        ),
-        (snapshot) => setOrders(snapshot.docs)
-      ),
-    [db]
-  );
-
+function EditProductPage({ restaurant, item }) {
+  console.log("item", item);
   return (
     <Fragment>
       <Head>
-        <title>Orders - {restaurant[0].name}</title>
-
+        <title>Edit product - {item.title}</title>
+        <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap"
           rel="stylesheet"
@@ -41,14 +29,17 @@ export default function Orders({ restaurant }) {
       </Head>
 
       <LayoutDashboard restaurantData={restaurant[0].name}>
-        {orders ? <OrdersTable orders={orders} /> : <Spinner />}
+        <EditProductsPage item={item} />
       </LayoutDashboard>
     </Fragment>
   );
 }
 
+export default EditProductPage;
+
 export async function getServerSideProps(context) {
   const restaurantName = context.query.restaurantName;
+  const item = context.query.id;
 
   const restaurantQ = query(
     collection(db, "restaurant"),
@@ -66,7 +57,14 @@ export async function getServerSideProps(context) {
     return { notFound: true };
   }
 
+  const docRef = doc(db, "items", item);
+  const docSnap = await getDoc(docRef);
+
+  if (!docSnap.exists()) {
+    return { notFound: true };
+  }
+
   return {
-    props: { restaurant: restaurant },
+    props: { restaurant: restaurant, item: docSnap.data() },
   };
 }

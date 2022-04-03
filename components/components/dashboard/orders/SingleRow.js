@@ -60,9 +60,9 @@ function SingleRow(props) {
             </div>
           )}
           {props.customerTip > 0 && (
-            <div className="text-sm font-semibold p-2">
+            <div className="text-sm font-semibold p-2 dark:text-white">
               Customer tip:{" "}
-              <span className="text-gray-500">
+              <span className="text-gray-500 ">
                 {props.customerTip.toFixed(2)}€
               </span>
             </div>

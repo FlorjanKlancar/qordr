@@ -11,10 +11,10 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../../../firebase";
-import History from "../../../../components/components/dashboard/history/History";
+import HistoryPage from "../../../../components/components/dashboard/history/HistoryPage";
 import Spinner from "../../../../components/components/spinner";
 
-export default function Dashboard({ restaurant }) {
+export default function History({ restaurant }) {
   const [orders, setOrders] = useState();
 
   useEffect(
@@ -39,7 +39,7 @@ export default function Dashboard({ restaurant }) {
       </Head>
 
       <LayoutDashboard restaurantData={restaurant[0].name}>
-        {orders ? <History orders={orders} /> : <Spinner />}
+        {orders ? <HistoryPage orders={orders} /> : <Spinner />}
       </LayoutDashboard>
     </Fragment>
   );

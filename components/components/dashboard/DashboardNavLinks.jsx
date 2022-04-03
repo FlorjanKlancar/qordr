@@ -14,6 +14,7 @@ function DashboardNavLinks({ toggleDrawer, isDarkMode, themeHandler }) {
 
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
+
   return (
     <div className="px-4 mt-2 space-y-14 ">
       <div className="space-y-4">
@@ -103,13 +104,14 @@ function DashboardNavLinks({ toggleDrawer, isDarkMode, themeHandler }) {
         </Link>
         <Link
           href={{
-            pathname: "/[restaurantName]/dashboard/editProducts",
+            pathname: "/[restaurantName]/dashboard/edit",
             query: { restaurantName: restaurantName },
           }}
         >
           <div
             className={
-              router.pathname == "/[restaurantName]/dashboard/editProducts"
+              router.pathname == "/[restaurantName]/dashboard/edit" ||
+              router.pathname == "/[restaurantName]/dashboard/edit/[id]"
                 ? `text-blue-600 ${isDarkTheme ? "bg-gray-800" : "bg-gray-50"}`
                 : "text-gray-700 "
             }

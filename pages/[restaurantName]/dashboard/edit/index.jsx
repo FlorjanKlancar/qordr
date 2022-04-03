@@ -1,7 +1,8 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import Head from "next/head";
+import React from "react";
 import LayoutDashboard from "../../../../components/layout/LayoutDashboard";
-import Spinner from "../../../../components/components/spinner";
+import ProductsPage from "../../../../components/components/dashboard/editProducts/ProductsPage";
 import {
   collection,
   getDocs,
@@ -11,20 +12,15 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../../../firebase";
-import OrdersTable from "../../../../components/components/dashboard/orders/OrdersTable";
+import Spinner from "../../../../components/components/spinner";
 
-export default function Orders({ restaurant }) {
-  const [orders, setOrders] = useState();
+export default function EditProducts({ restaurant }) {
+  const [items, setItems] = useState([]);
 
   useEffect(
     () =>
-      onSnapshot(
-        query(
-          collection(db, "orders"),
-          where("status", "==", "pending"),
-          orderBy("timestamp", "desc")
-        ),
-        (snapshot) => setOrders(snapshot.docs)
+      onSnapshot(query(collection(db, "items")), (snapshot) =>
+        setItems(snapshot.docs)
       ),
     [db]
   );
@@ -32,8 +28,8 @@ export default function Orders({ restaurant }) {
   return (
     <Fragment>
       <Head>
-        <title>Orders - {restaurant[0].name}</title>
-
+        <title>Edit products - {restaurant[0].name}</title>
+        <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap"
           rel="stylesheet"
@@ -41,7 +37,7 @@ export default function Orders({ restaurant }) {
       </Head>
 
       <LayoutDashboard restaurantData={restaurant[0].name}>
-        {orders ? <OrdersTable orders={orders} /> : <Spinner />}
+        {items.length ? <ProductsPage items={items} /> : <Spinner />}
       </LayoutDashboard>
     </Fragment>
   );

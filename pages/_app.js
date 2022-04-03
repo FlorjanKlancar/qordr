@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { Provider } from "react-redux";
 import store from "../store";
+import { ToastContainer } from "react-toastify";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -55,6 +56,19 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           </CartProvider>
         </SessionProvider>
       </Suspense>
+      <ToastContainer
+        theme={isDarkTheme ? "dark" : "light"}
+        style={{ padding: "1rem" }}
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+      />
     </div>
   );
 }

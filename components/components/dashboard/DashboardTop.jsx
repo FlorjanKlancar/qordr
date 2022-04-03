@@ -129,7 +129,7 @@ export default function DashboardTop({ restaurantData }) {
                     />
                   </div>
 
-                  <div className="">
+                  <div>
                     <div className="ml-4 flex items-center md:ml-6 tracking-wide">
                       <div className="hidden sm:block dark:text-gray-400">
                         Welcome,{" "}
