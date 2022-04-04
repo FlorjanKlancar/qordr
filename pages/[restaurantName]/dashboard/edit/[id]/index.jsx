@@ -16,7 +16,7 @@ import LayoutDashboard from "../../../../../components/layout/LayoutDashboard";
 import EditProductsPage from "../../../../../components/components/dashboard/editProducts/EditProductsPage";
 
 function EditProductPage({ restaurant, item }) {
-  console.log("item", item);
+  console.log("item main", item);
   return (
     <Fragment>
       <Head>
@@ -29,7 +29,9 @@ function EditProductPage({ restaurant, item }) {
       </Head>
 
       <LayoutDashboard restaurantData={restaurant[0].name}>
-        <EditProductsPage item={item} />
+        <div id="container">
+          <EditProductsPage item={item} />
+        </div>
       </LayoutDashboard>
     </Fragment>
   );
@@ -65,6 +67,9 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: { restaurant: restaurant, item: docSnap.data() },
+    props: {
+      restaurant: restaurant,
+      item: { id: docSnap.id, item: docSnap.data() },
+    },
   };
 }

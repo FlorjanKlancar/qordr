@@ -5,12 +5,14 @@ import { TrashIcon } from "@heroicons/react/solid";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import { CheckIcon } from "@heroicons/react/solid";
 import DeleteModal from "./DeleteModal";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { db } from "../../../../firebase";
 
 function EditProductsPage({ item: itemFromDb }) {
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
 
-  const [item, setItem] = useState(itemFromDb);
+  const [item, setItem] = useState(itemFromDb.item);
   const [openModal, setOpenModal] = useState(false);
 
   function handleChange(evt) {
@@ -23,24 +25,44 @@ function EditProductsPage({ item: itemFromDb }) {
   }
 
   const submitHandler = async (e) => {
-    e.preventDefault();
     console.log("item", item);
+    e.preventDefault();
+
+    const itemRef = doc(db, "items", itemFromDb.id);
+
+    await updateDoc(itemRef, {
+      title: item.title,
+      description: item.description,
+      price: parseInt(item.price),
+      recommendation: item.recommendation,
+      type: item.type,
+    });
   };
 
-  console.log(openModal);
+  const deleteItem = async (id) => {
+    await deleteDoc(doc(db, "items", id));
+
+    router.push(`/${restaurantName}/dashboard/edit`);
+  };
 
   return (
-    <form onChange={handleChange} onSubmit={submitHandler}>
+    <form
+      onChange={handleChange}
+      onSubmit={submitHandler}
+      className="bg-gray-100 dark:bg-darkThemeBackground"
+    >
       <div className="p-5 w-full sm:w-4/6 md:w-5/12 m-auto">
         <div className="p-0.5  bg-gradient-to-br from-sky-200 via-gray-200 to-red-300 dark:from-sky-600 dark:via-gray-200 dark:to-red-700 rounded-lg">
           <div className="w-full h-44 lg:h-52 xl:h-72 relative ">
-            <Image
-              src={item.picture}
-              alt={item.title}
-              layout={"fill"}
-              className="rounded-lg"
-              priority
-            />
+            {item.picture && (
+              <Image
+                src={item.picture}
+                alt={item.title}
+                layout={"fill"}
+                className="rounded-lg"
+                priority
+              />
+            )}
           </div>
         </div>
 
@@ -125,6 +147,7 @@ function EditProductsPage({ item: itemFromDb }) {
           <button
             className="w-full bg-red-300 rounded-full px-2 py-3 font-semibold border-red-400 border-2 text-red-600 dark:bg-red-700 dark:border-red-800 dark:text-red-200 transition ease-in-out delay-150  hover:scale-105 hover:bg-red-400 hover:text-white dark:hover:bg-red-800 dark:hover:text-black duration-200"
             onClick={() => setOpenModal(true)}
+            type="button"
           >
             <div className="flex justify-center">
               <TrashIcon className="w-4 h-4 mt-1" />
@@ -137,13 +160,17 @@ function EditProductsPage({ item: itemFromDb }) {
           <button
             className="w-1/2 bg-gray-300 rounded-full px-2 py-3 font-semibold border-gray-400 border-2 text-gray-600 dark:bg-gray-700 dark:border-gray-800 dark:text-gray-200 transition ease-in-out delay-150  hover:scale-105 hover:bg-gray-400 hover:text-white dark:hover:bg-gray-800 dark:hover:text-black duration-200"
             onClick={() => router.push(`/${restaurantName}/dashboard/edit/`)}
+            type="button"
           >
             <div className="flex justify-center">
               <ArrowLeftIcon className="w-4 h-4 mt-1" />
               <p className="">Back</p>
             </div>
           </button>
-          <button className="w-1/2 bg-sky-300 rounded-full px-2 py-3 font-semibold border-sky-400 border-2 text-sky-600 dark:bg-sky-800 dark:text-gray-200 dark:border-sky-700 transition ease-in-out delay-150  hover:scale-105 hover:bg-sky-400 hover:text-white dark:hover:bg-sky-900 dark:hover:text-black duration-200">
+          <button
+            className="w-1/2 bg-sky-300 rounded-full px-2 py-3 font-semibold border-sky-400 border-2 text-sky-600 dark:bg-sky-800 dark:text-gray-200 dark:border-sky-700 transition ease-in-out delay-150  hover:scale-105 hover:bg-sky-400 hover:text-white dark:hover:bg-sky-900 dark:hover:text-black duration-200"
+            type="submit"
+          >
             <div className="flex justify-center">
               <CheckIcon className="w-4 h-4 mt-1" />
               <p className="">Save</p>
@@ -151,7 +178,14 @@ function EditProductsPage({ item: itemFromDb }) {
           </button>
         </div>
       </div>
-      {openModal && <DeleteModal closeDeleteModalHandler={openModal} />}
+      {openModal && (
+        <DeleteModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          item={itemFromDb}
+          deleteItem={deleteItem}
+        />
+      )}
     </form>
   );
 }
