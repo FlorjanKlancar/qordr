@@ -1,6 +1,7 @@
 import Image from "next/image";
 import DataTable, { createTheme } from "react-data-table-component";
 import { useSelector } from "react-redux";
+import LastColumnButtons from "./history/LastColumnButtons";
 // createTheme creates a new theme named solarized that overrides the build in dark theme
 createTheme(
   "solarized",
@@ -31,21 +32,33 @@ export default function ReactDataTable({
   columns,
   expandableRowsBoolean,
   trClick,
+  submitStatusHandler,
 }) {
   const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
 
   if (expandableRowsBoolean) {
     const ExpandedComponent = (data) => {
+      console.log(data);
       return (
         <>
-          <div className="my-4 mx-2 grid sm:grid-cols-2 md:grid-cols-3">
+          <div className="my-4 mx-2 grid sm:grid-cols-2 md:grid-cols-3 w-1/3 sm:w-full">
+            <div className="flex flex-col text-center justify-center my-2 sm:hidden">
+              <div className="font-semibold text-gray-600 dark:text-gray-300">
+                Change order status
+              </div>
+              <LastColumnButtons
+                submitStatusHandler={submitStatusHandler}
+                id={data.data.id}
+              />
+            </div>
             {data.data.items.map((item, i) => {
               return (
                 <div
-                  className="flex space-x-4 p-2 even:bg-sky-100 odd:bg-blue-100 dark:even:bg-sky-900 dark:odd:bg-blue-900 rounded-lg mx-1 my-1 "
+                  className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0 p-2 even:bg-sky-100 odd:bg-blue-100 dark:even:bg-sky-900 dark:odd:bg-blue-900 rounded-lg mx-1 my-1 "
                   key={i}
                 >
-                  <div className="w-28 h-16  relative ">
+                  <div></div>
+                  <div className="m-auto w-2/4 h-20 sm:w-28 sm:h-16  relative ">
                     <Image
                       alt="Picture"
                       src={item.picture}
@@ -55,7 +68,7 @@ export default function ReactDataTable({
                     />
                   </div>
 
-                  <div className="w-1/2 truncate font-semibold dark:text-white">
+                  <div className="w-full sm:w-1/2 truncate font-semibold dark:text-white text-center sm:text-left">
                     <span className="text-blue-500 text-lg">
                       {item.amount}x
                     </span>{" "}
@@ -69,14 +82,12 @@ export default function ReactDataTable({
               );
             })}
           </div>
-          <div className="mb-5 flex justify-start ml-5 sm:ml-0 sm:justify-center ">
-            <div className="w-1/2 xl:w-1/5 rounded-full bg-green-200 dark:bg-green-700 dark:text-gray-100  px-2 py-3 text-center">
-              <span className="font-bold text-base">
-                Table {data.data.restaurantTableNr}:
-              </span>{" "}
-              <span className="text-lg underline decoration-green-500 dark:decoration-black underline-offset-1">
+          <div className="flex mx-2 my-4 sm:ml-0 sm:justify-center ">
+            <div className="flex w-1/2 xl:w-1/5 rounded-full bg-green-200 dark:bg-green-700 dark:text-gray-100  px-2 py-3 justify-center space-x-2">
+              {data.data.restaurantTableNr}:
+              <div className="text-base font-semibold underline decoration-green-500 dark:decoration-black underline-offset-1">
                 {data.data.totalAmount.toFixed(2)}€ in total
-              </span>
+              </div>
             </div>
           </div>
         </>
@@ -95,9 +106,12 @@ export default function ReactDataTable({
         expandableRowsComponent={ExpandedComponent}
         theme={isDarkTheme ? "solarized" : ""}
         id="react_data_table"
-        onRowClicked={(e) => {
-          trClick(e.id);
-        }}
+        onRowClicked={
+          trClick &&
+          ((e) => {
+            trClick(e.id);
+          })
+        }
       />
     </div>
   );
