@@ -1,5 +1,5 @@
 import React from "react";
-import { Fragment, useState, useEffect } from "react";
+import {Fragment, useState, useEffect} from "react";
 import {
   collection,
   doc,
@@ -10,12 +10,12 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../../../../firebase";
+import {db} from "../../../../../firebase";
 import Head from "next/head";
 import LayoutDashboard from "../../../../../components/layout/LayoutDashboard";
 import EditProductsPage from "../../../../../components/components/dashboard/editProducts/EditProductsPage";
 
-function EditProductPage({ restaurant, item }) {
+function EditProductPage({restaurant, item}) {
   console.log("item main", item);
   return (
     <Fragment>
@@ -56,20 +56,20 @@ export async function getServerSideProps(context) {
   });
 
   if (restaurant.length === 0) {
-    return { notFound: true };
+    return {notFound: true};
   }
 
   const docRef = doc(db, "items", item);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) {
-    return { notFound: true };
+    return {notFound: true};
   }
 
   return {
     props: {
       restaurant: restaurant,
-      item: { id: docSnap.id, item: docSnap.data() },
+      item: {id: docSnap.id, item: docSnap.data()},
     },
   };
 }

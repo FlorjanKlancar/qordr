@@ -1,18 +1,18 @@
 import Image from "next/image";
-import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { TrashIcon } from "@heroicons/react/solid";
-import { ArrowLeftIcon } from "@heroicons/react/solid";
-import { CheckIcon } from "@heroicons/react/solid";
+import React, {useState} from "react";
+import {useRouter} from "next/router";
+import {TrashIcon} from "@heroicons/react/solid";
+import {ArrowLeftIcon} from "@heroicons/react/solid";
+import {CheckIcon} from "@heroicons/react/solid";
 import DeleteModal from "./DeleteModal";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "../../../../firebase";
+import {deleteDoc, doc, updateDoc} from "firebase/firestore";
+import {db} from "../../../../firebase";
 
-function EditProductsPage({ item: itemFromDb }) {
+function EditProductsPage({item: itemFromDb}) {
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
 
-  const [item, setItem] = useState(itemFromDb.item);
+  const [item, setItem] = useState(itemFromDb?.item || {});
   const [openModal, setOpenModal] = useState(false);
 
   function handleChange(evt) {
@@ -143,18 +143,20 @@ function EditProductsPage({ item: itemFromDb }) {
           </div>
         </div>
 
-        <div>
-          <button
-            className="w-full bg-red-300 rounded-full px-2 py-3 font-semibold border-red-400 border-2 text-red-600 dark:bg-red-700 dark:border-red-800 dark:text-red-200 transition ease-in-out delay-150  hover:scale-105 hover:bg-red-400 hover:text-white dark:hover:bg-red-800 dark:hover:text-black duration-200"
-            onClick={() => setOpenModal(true)}
-            type="button"
-          >
-            <div className="flex justify-center">
-              <TrashIcon className="w-4 h-4 mt-1" />
-              <p className="">Delete item</p>
-            </div>
-          </button>
-        </div>
+        {!item && (
+          <div>
+            <button
+              className="w-full bg-red-300 rounded-full px-2 py-3 font-semibold border-red-400 border-2 text-red-600 dark:bg-red-700 dark:border-red-800 dark:text-red-200 transition ease-in-out delay-150  hover:scale-105 hover:bg-red-400 hover:text-white dark:hover:bg-red-800 dark:hover:text-black duration-200"
+              onClick={() => setOpenModal(true)}
+              type="button"
+            >
+              <div className="flex justify-center">
+                <TrashIcon className="w-4 h-4 mt-1" />
+                <p className="">Delete item</p>
+              </div>
+            </button>
+          </div>
+        )}
 
         <div className="flex space-x-4 w-full justify-between mt-8">
           <button
