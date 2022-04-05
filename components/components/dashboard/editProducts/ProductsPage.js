@@ -1,12 +1,12 @@
 import Image from "next/image";
 import ReactDataTable from "../ReactDataTable";
-import {HeartIcon} from "@heroicons/react/solid";
-import {XIcon, PlusIcon} from "@heroicons/react/solid";
-import {SearchIcon} from "@heroicons/react/solid";
-import {useState} from "react";
-import {useRouter} from "next/router";
+import { HeartIcon } from "@heroicons/react/solid";
+import { XIcon, PlusIcon } from "@heroicons/react/solid";
+import { SearchIcon } from "@heroicons/react/solid";
+import { useState } from "react";
+import { useRouter } from "next/router";
 
-function ProductsPage({items}) {
+function ProductsPage({ items }) {
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
 
@@ -133,7 +133,7 @@ function ProductsPage({items}) {
     <div>
       <div className="flex flex-col sm:flex-row sm:space-y-0 sm:space-x-4 space-y-2 justify-between mx-8 pt-8">
         <div
-          className="flex w-full sm:w-1/2 lg:w-1/3 xl:w-2/12 text-white bg-emerald-500 opacity-75  rounded-full py-2 px-4 hover:cursor-pointer hover:bg-emerald-700 hover:text-gray-200"
+          className="flex w-full sm:w-1/2 lg:w-1/3 xl:w-2/12 text-white bg-emerald-500 dark:bg-teal-600 dark:text-white dark:hover:bg-teal-500  rounded-full py-2 px-4 hover:cursor-pointer hover:bg-emerald-700 hover:text-gray-200"
           onClick={() =>
             router.push(`/${restaurantName}/dashboard/edit/create-item`)
           }
@@ -144,7 +144,7 @@ function ProductsPage({items}) {
 
           <PlusIcon className="w-5 h-5 mt-1" />
         </div>
-        <div className="flex w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 justify-start  opacity-75  rounded-full border-2 border-indigo-400 mr-5 py-2 px-4">
+        <div className="flex w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 opacity-75  rounded-full border-2 border-indigo-400 mr-5 py-2 px-4">
           <input
             type="text"
             className="flex-grow bg-transparent outline-none placeholder-gray-500 text-black dark:text-white pr-5"
@@ -153,7 +153,14 @@ function ProductsPage({items}) {
             onChange={(e) => setSearch(e.target.value)}
           />
           <button className="font-bold text-indigo-500" type="button">
-            <SearchIcon className="w-5 h-5" />
+            {search.length ? (
+              <XIcon
+                className="w-5 h-5 text-gray-500 dark:text-gray-200"
+                onClick={() => setSearch("")}
+              />
+            ) : (
+              <SearchIcon className="w-5 h-5" />
+            )}
           </button>
         </div>
       </div>

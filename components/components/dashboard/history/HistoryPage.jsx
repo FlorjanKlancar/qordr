@@ -5,6 +5,7 @@ import { CheckIcon, MinusIcon, XIcon } from "@heroicons/react/solid";
 import { toast } from "react-toastify";
 import { db } from "../../../../firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import LastColumnButtons from "./LastColumnButtons";
 
 function HistoryPage({ orders }) {
   function alertMessageSuccess(status) {
@@ -61,6 +62,8 @@ function HistoryPage({ orders }) {
   ];
 
   const submitStatusHandler = async (status, id) => {
+    console.log("status", status);
+    console.log("id", id);
     try {
       alertMessageSuccess(status);
 
@@ -76,12 +79,16 @@ function HistoryPage({ orders }) {
 
   const mainData = orders?.map((order, i) => {
     return {
-      id: i,
+      id: order.id,
       date: moment(order.data().timestamp.toDate()).format(
-        "MMMM Do YYYY, h:mm"
+        "DD. MM. yyyy, h:mm"
       ),
       payment: order.data().paymentType,
-      restaurantTableNr: order.data().restaurantTableNr,
+      restaurantTableNr: (
+        <div className="font-bold text-base">
+          Table {order.data().restaurantTableNr}
+        </div>
+      ),
       status: order.data().status,
       totalAmount: order.data().totalAmount,
       items: order.data().items.map((item, i) => {
@@ -93,31 +100,11 @@ function HistoryPage({ orders }) {
         };
       }),
       edit: (
-        <div className="flex space-x-3">
-          <div
-            className="bg-green-300 dark:bg-green-700 rounded p-2 hover:bg-green-400 dark:hover:bg-green-600 cursor-pointer"
-            title="Set order as completed"
-            onClick={() => submitStatusHandler("completed", order.id)}
-          >
-            <CheckIcon className="w-6 h-6 text-green-800 dark:text-green-200" />
-          </div>
-
-          <div
-            className="bg-orange-300 dark:bg-orange-500 rounded p-2 hover:bg-orange-400 dark:hover:bg-orange-600 cursor-pointer"
-            tooltip="Minus"
-            title="Set order as pending"
-            onClick={() => submitStatusHandler("pending", order.id)}
-          >
-            <MinusIcon className="w-6 h-6 text-orange-800 dark:text-orange-200" />
-          </div>
-
-          <div
-            className="bg-red-300 dark:bg-red-600 rounded p-2 hover:bg-red-400 dark:hover:bg-red-500 cursor-pointer"
-            title="Set order as canceled"
-            onClick={() => submitStatusHandler("cancel", order.id)}
-          >
-            <XIcon className="w-6 h-6 text-red-800 dark:text-red-200" />
-          </div>
+        <div className="hidden sm:flex">
+          <LastColumnButtons
+            submitStatusHandler={submitStatusHandler}
+            id={order.id}
+          />
         </div>
       ),
     };
@@ -130,6 +117,7 @@ function HistoryPage({ orders }) {
         columns={columns}
         data={mainData}
         expandableRowsBoolean={true}
+        submitStatusHandler={submitStatusHandler}
       />
     </div>
   );
