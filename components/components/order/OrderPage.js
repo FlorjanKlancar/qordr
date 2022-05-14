@@ -11,13 +11,10 @@ import AlertPopUp from "./AlertPopUp";
 import {useRouter} from "next/router";
 import Link from "next/link";
 import {ArrowLeftIcon} from "@heroicons/react/solid";
-import {useTranslation} from "react-i18next";
 import {addDoc, collection, serverTimestamp} from "firebase/firestore";
 import {db} from "../../../firebase/index";
 
 function OrderPage(props) {
-  const {t} = useTranslation();
-
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
   const tableNr = router.query.tableNr;
@@ -88,12 +85,12 @@ function OrderPage(props) {
                   >
                     <button className="flex">
                       <ArrowLeftIcon className="w-5 h-5" />
-                      <span className="ml-2">{t("back_button")}</span>
+                      <span className="ml-2">Back</span>
                     </button>
                   </Link>
                 </div>
 
-                <div className="">{t("checkout_info")}</div>
+                <div className="">Checkout for</div>
               </div>
               {cartCtx.items.map((item) => (
                 <OrderItem

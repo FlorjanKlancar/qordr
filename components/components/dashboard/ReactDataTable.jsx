@@ -1,6 +1,6 @@
 import Image from "next/image";
-import DataTable, { createTheme } from "react-data-table-component";
-import { useSelector } from "react-redux";
+import DataTable, {createTheme} from "react-data-table-component";
+import {useSelector} from "react-redux";
 import LastColumnButtons from "./history/LastColumnButtons";
 // createTheme creates a new theme named solarized that overrides the build in dark theme
 createTheme(
@@ -41,7 +41,7 @@ export default function ReactDataTable({
       console.log(data);
       return (
         <>
-          <div className="my-4 mx-2 grid sm:grid-cols-2 md:grid-cols-3 w-1/3 sm:w-full">
+          <div className="my-4 mx-10 grid sm:grid-cols-2 md:grid-cols-3 w-1/3 sm:w-full">
             <div className="flex flex-col text-center justify-center my-2 sm:hidden">
               <div className="font-semibold text-gray-600 dark:text-gray-300">
                 Change order status
@@ -82,8 +82,8 @@ export default function ReactDataTable({
               );
             })}
           </div>
-          <div className="flex mx-2 my-4 sm:ml-0 sm:justify-center ">
-            <div className="flex w-1/2 xl:w-1/5 rounded-full bg-green-200 dark:bg-green-700 dark:text-gray-100  px-2 py-3 justify-center space-x-2">
+          <div className="flex mx-10 my-4 sm:ml-0 sm:justify-center w-1/2 sm:w-full">
+            <div className="flex w-full xl:w-1/5 rounded-full bg-green-200 dark:bg-green-700 dark:text-gray-100  px-2 py-3 justify-center space-x-2">
               {data.data.restaurantTableNr}:
               <div className="text-base font-semibold underline decoration-green-500 dark:decoration-black underline-offset-1">
                 {data.data.totalAmount.toFixed(2)}€ in total
@@ -96,7 +96,7 @@ export default function ReactDataTable({
   }
 
   return (
-    <div className="p-3 ">
+    <div className="p-3 bg-gray-100  dark:bg-[#202225] ">
       <DataTable
         title={title}
         columns={columns}

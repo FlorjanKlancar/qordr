@@ -1,13 +1,11 @@
-import { Fragment, useContext } from "react";
+import {Fragment, useContext} from "react";
 import CartContext from "./cart-context";
 import CartSingleItem from "./CartSingleItem";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
-import { XIcon } from "@heroicons/react/solid";
+import {useRouter} from "next/router";
+import {XIcon} from "@heroicons/react/solid";
 
 function OpenCart(props) {
-  const { t } = useTranslation();
   const cartCtx = useContext(CartContext);
   const totalAmount = cartCtx.totalAmount.toFixed(2);
   const hasItems = cartCtx.items.length;
@@ -21,14 +19,14 @@ function OpenCart(props) {
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({ ...item, amount: 1 });
+    cartCtx.addItem({...item, amount: 1});
   };
 
   return (
     <Fragment>
       <div className="max-h-96	overflow-scroll">
         <div className="flex justify-between">
-          <div className="font-bold text-2xl p-2">{t("cart_header")}</div>
+          <div className="font-bold text-2xl p-2">Cart items</div>
           <div className="divide-y ">
             <button
               className="border-2 border-gray-500	 hover:bg-gray-300 text-gray-900 font-bold rounded-full p-2"
@@ -53,19 +51,19 @@ function OpenCart(props) {
       {hasItems > 0 && (
         <Fragment>
           <div className="border-t-2 text-center mt-4 font-bold text-2xl pt-2">
-            {t("cart_total")} {totalAmount} €
+            Total amount: {totalAmount} €
           </div>
 
           <div className="pt-6">
             <Link
               href={{
                 pathname: "/[restaurantName]/[tableNr]/order",
-                query: { restaurantName: restaurantName, tableNr: tableNr },
+                query: {restaurantName: restaurantName, tableNr: tableNr},
               }}
               items={cartCtx}
             >
               <button className="w-full bg-default text-white font-bold py-2 px-4 rounded ">
-                {t("open_cart_button")}
+                Proceed to checkout
               </button>
             </Link>
           </div>

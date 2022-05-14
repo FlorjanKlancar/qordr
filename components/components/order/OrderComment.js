@@ -1,13 +1,10 @@
 import {Fragment, useState} from "react";
 import Link from "next/link";
 import {useRouter} from "next/router";
-import {useTranslation} from "react-i18next";
 import {PlusIcon} from "@heroicons/react/solid";
 import {ChatAlt2Icon} from "@heroicons/react/solid";
 
 function OrderComment(props) {
-  const {t} = useTranslation();
-
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
   const tableNr = router.query.tableNr;
@@ -27,13 +24,13 @@ function OrderComment(props) {
             query: {restaurantName: restaurantName, tableNr: tableNr},
           }}
         >
-          <button className="ml-2">{t("add_more_button")}</button>
+          <button className="ml-2">Add more items!</button>
         </Link>
       </div>
       <div className="ml-8 mb-8 flex">
         <ChatAlt2Icon className="w-6 h-6 text-default" />
         <button onClick={commentHandler} className="pl-2">
-          {t("add_comment_button")}
+          Add comment to the restaurant!
         </button>
       </div>
       {showComment && (

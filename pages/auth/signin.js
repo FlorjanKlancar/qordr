@@ -13,7 +13,7 @@ export default function SignIn() {
 
   return (
     <div className="h-screen">
-      <div className="pt-80">
+      <div className="pt-80 flex justify-center">
         {providers &&
           Object.values(providers).map((provider) => (
             <div key={provider.name}>

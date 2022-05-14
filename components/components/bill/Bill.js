@@ -1,16 +1,11 @@
-import React, { Fragment, useContext } from "react";
+import React, {Fragment, useContext} from "react";
 import CartContext from "../store/cart-context";
 import ListItems from "./ListItems";
-import { useRouter } from "next/router";
 import Lottie from "react-lottie";
 import animationData from "../../../public/lottie/waiter.json";
-import { useTranslation } from "react-i18next";
 import Confetti from "react-confetti";
 
 function Bill(props) {
-  const { t } = useTranslation();
-  const router = useRouter();
-
   const cartCtx = useContext(CartContext);
   const comment = props.comment;
   const tip = props.tip * 1;
@@ -40,7 +35,7 @@ function Bill(props) {
       </div>
 
       <div className="p-4 items-center text-center	 text-xl font-medium">
-        {t("bill_thanks")}
+        Thank you for your order we will deliver it to you shortly!
       </div>
 
       <div className="w-10/12 m-auto">
@@ -64,21 +59,21 @@ function Bill(props) {
           ))}
           {tip > 0 && (
             <li key={props.key} className="p-3 text-sm">
-              {t("payment_checkout_tip")}
+              Tip for waiter
               <span className="float-right">{tip}€</span>
             </li>
           )}
         </ul>
       </div>
       <div className="pt-4 font-bold items-center text-center float-right pr-8 lg:float-none lg:pr-0">
-        {t("bill_total")} {(totalAmount - tip).toFixed(2)}€
+        In total: {(totalAmount - tip).toFixed(2)}€
       </div>
       <div className="mt-8 pt-8 items-center text-center	text-xl font-medium">
-        {t("bill_payment")} {props.paymentOptionIs}
+        Paid by {props.paymentOptionIs}
       </div>
       {comment && (
         <div className="pt-8 items-center text-center	text-xl font-medium">
-          {t("bill_comment")}
+          Your comment was:
           <div className="items-center text-center text-base font-normal">
             {comment}
           </div>

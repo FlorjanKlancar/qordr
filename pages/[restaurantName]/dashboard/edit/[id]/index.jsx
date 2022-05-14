@@ -16,11 +16,14 @@ import LayoutDashboard from "../../../../../components/layout/LayoutDashboard";
 import EditProductsPage from "../../../../../components/components/dashboard/editProducts/EditProductsPage";
 
 function EditProductPage({restaurant, item}) {
-  console.log("item main", item);
+  const itemParsed = JSON.parse(item.item);
+
+  console.log("itemParsed", itemParsed);
+
   return (
     <Fragment>
       <Head>
-        <title>Edit product - {item.title}</title>
+        <title>Edit product - {itemParsed.title}</title>
         <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap"
@@ -30,7 +33,7 @@ function EditProductPage({restaurant, item}) {
 
       <LayoutDashboard restaurantData={restaurant[0].name}>
         <div id="container">
-          <EditProductsPage item={item} />
+          <EditProductsPage item={itemParsed} />
         </div>
       </LayoutDashboard>
     </Fragment>
@@ -69,7 +72,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       restaurant: restaurant,
-      item: {id: docSnap.id, item: docSnap.data()},
+      item: {id: docSnap.id, item: JSON.stringify(docSnap.data())},
     },
   };
 }

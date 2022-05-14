@@ -1,14 +1,11 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { CreditCardIcon } from "@heroicons/react/solid";
-import { CheckIcon } from "@heroicons/react/solid";
-import { CashIcon } from "@heroicons/react/solid";
-import { ThumbUpIcon } from "@heroicons/react/solid";
+import React from "react";
+import {CreditCardIcon} from "@heroicons/react/solid";
+import {CheckIcon} from "@heroicons/react/solid";
+import {CashIcon} from "@heroicons/react/solid";
+import {ThumbUpIcon} from "@heroicons/react/solid";
 import StripeCheckoutForm from "./StripeCheckoutForm";
 
 function PaymentDetails(props) {
-  const { t } = useTranslation();
-
   function paymentSelector(arg) {
     if (arg === props.paymentOption) props.setPaymentOption("");
     else props.setPaymentOption(arg);
@@ -19,7 +16,7 @@ function PaymentDetails(props) {
 
   return (
     <div className="flex flex-col">
-      <div className="font-bold text-xl">{t("payment_header")}</div>
+      <div className="font-bold text-xl">Payment details</div>
       <div className="mt-4 flex flex-row space-x-2 align-middle">
         <div
           className={`flex w-1/2 justify-evenly border-2 rounded-lg p-3 ${
@@ -30,7 +27,7 @@ function PaymentDetails(props) {
           onClick={() => paymentSelector("card")}
         >
           <CreditCardIcon className="w-6 h-6 mr-2" />
-          {t("payment_card")}
+          Card
           {props.paymentOption === "card" && (
             <CheckIcon className="w-6 h-6 mr-2 " />
           )}
@@ -45,7 +42,7 @@ function PaymentDetails(props) {
           onClick={() => paymentSelector("cash")}
         >
           <CashIcon className="w-6 h-6 mr-2" />
-          {t("payment_cash")}
+          Cash
           {props.paymentOption === "cash" && (
             <CheckIcon className="w-6 h-6 mr-2 " />
           )}
@@ -60,7 +57,7 @@ function PaymentDetails(props) {
 
       <div className="pt-6 px-4 flex justify-between text-gray-500 ">
         <ThumbUpIcon className="w-6 h-6 mr-2" />
-        <div className="text-sm mt-1">{t("payment_tip")}</div>
+        <div className="text-sm mt-1">Tip waiter</div>
 
         <div className="flex w-1/3 border-2 border-gray-300 rounded-lg">
           <span className="inline-flex items-center px-3 text-sm text-gray-500">

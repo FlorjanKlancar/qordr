@@ -12,7 +12,7 @@ function EditProductsPage({item: itemFromDb}) {
   const router = useRouter();
   const restaurantName = router.query.restaurantName;
 
-  const [item, setItem] = useState(itemFromDb?.item || {});
+  const [item, setItem] = useState(itemFromDb || {});
   const [openModal, setOpenModal] = useState(false);
 
   function handleChange(evt) {

@@ -1,9 +1,6 @@
 import React from "react";
-import {useTranslation} from "react-i18next";
 
 function SingleCardAddRemove({currentItem, onRemove, onAdd}) {
-  const {t} = useTranslation();
-
   function itemsHandler(e) {
     e.stopPropagation();
 
@@ -17,7 +14,7 @@ function SingleCardAddRemove({currentItem, onRemove, onAdd}) {
           className="bg-default text-white font-bold py-2 px-4 rounded "
           onClick={itemsHandler}
         >
-          {t("restaurant_cart_button")}
+          Add to cart!
         </button>
       ) : (
         <div className="grid grid-cols-3 items-center text-center w-full h-full">

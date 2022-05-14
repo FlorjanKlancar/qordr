@@ -1,8 +1,8 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { MenuIcon } from "@heroicons/react/outline";
-import React, { useState } from "react";
-import { useSession, signOut } from "next-auth/react";
+import {Fragment} from "react";
+import {Disclosure, Menu, Transition} from "@headlessui/react";
+import {MenuIcon} from "@heroicons/react/outline";
+import React, {useState} from "react";
+import {useSession, signOut} from "next-auth/react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -14,10 +14,10 @@ import Image from "next/image";
 import DashboardNavLinks from "./DashboardNavLinks";
 import Link from "next/link";
 import DarkModeToggle from "react-dark-mode-toggle";
-import { useDispatch, useSelector } from "react-redux";
-import { themeActions } from "../../../store/theme-slice";
+import {useDispatch, useSelector} from "react-redux";
+import {themeActions} from "../../../store/theme-slice";
 
-export default function DashboardTop({ restaurantData }) {
+export default function DashboardTop({restaurantData}) {
   const dispatch = useDispatch();
 
   const isDarkTheme = useSelector((state) => state.theme.isDarkTheme);
@@ -33,7 +33,7 @@ export default function DashboardTop({ restaurantData }) {
   });
   const [isDarkMode, setIsDarkMode] = useState(!isDarkTheme);
 
-  const { data: session } = useSession();
+  const {data: session} = useSession();
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -43,7 +43,7 @@ export default function DashboardTop({ restaurantData }) {
       return;
     }
 
-    setState({ ...state, [anchor]: open });
+    setState({...state, [anchor]: open});
   };
 
   const list = (anchor) => (
@@ -93,22 +93,24 @@ export default function DashboardTop({ restaurantData }) {
               </div>
               <div className="items-center hidden lg:block">
                 <div className="flex-shrink-0">
-                  <div className="mt-2 pr-8">
-                    {isDarkTheme ? (
-                      <Image
-                        src={qOrderWhite}
-                        alt="qOrder"
-                        width={140}
-                        height={30}
-                      />
-                    ) : (
-                      <Image
-                        src={qOrder}
-                        alt="qOrder"
-                        width={140}
-                        height={52}
-                      />
-                    )}
+                  <div className="mt-2 pr-8 hover:cursor-pointer">
+                    <Link href="/">
+                      {isDarkTheme ? (
+                        <Image
+                          src={qOrderWhite}
+                          alt="qOrder"
+                          width={140}
+                          height={30}
+                        />
+                      ) : (
+                        <Image
+                          src={qOrder}
+                          alt="qOrder"
+                          width={140}
+                          height={52}
+                        />
+                      )}
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -124,7 +126,7 @@ export default function DashboardTop({ restaurantData }) {
                   <div className="mt-10 hidden sm:block">
                     <DarkModeToggle
                       onChange={themeHandler}
-                      checked={isDarkTheme}
+                      checked={!isDarkTheme}
                       size={60}
                     />
                   </div>
