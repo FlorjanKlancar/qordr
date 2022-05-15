@@ -47,6 +47,9 @@
 
 
 ## Information
+In this app it's possible to order and pay restaurants food by your mobile phone. After you finish your order, it pops up in admin dashboard.<br/>
+Admin dashboard also allowes you to have a bit of overview/statistics of how much orders you had in previous days etc.
+
 In this project I have learned about:
 * Creating a more complex React application
 * Stripe payment functionality
